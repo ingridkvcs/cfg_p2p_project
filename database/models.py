@@ -1,6 +1,5 @@
 # Defines the model for the database tables
-
-from database.database_sqlalchemy import db
+from init import db
 
 
 class User(db.Model):

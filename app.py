@@ -1,14 +1,16 @@
 # Contains all the endpoints for this application
+from flask import render_template
 
-from database.database_sqlalchemy import create_app, db
 from database.models import User
+from init import create_app, db
 
 app = create_app()
 
 
 @app.route('/')
 def main_page():
-    return
+    users = db.session.query(User).count()
+    return render_template("index.html", user_count=users)
 
 
 @app.route('/database_test')
