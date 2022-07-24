@@ -1,10 +1,4 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from db_config import username, password, host, port, db_name
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{db_name}'
-db = SQLAlchemy(app)
+from database.database_sqlalchemy import db
 
 
 class User(db.Model):

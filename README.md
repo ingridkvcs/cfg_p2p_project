@@ -27,7 +27,7 @@ We used jira to track our work. Our project is [here](https://cfg-p2p-2022.atlas
 1. open db_config.py
 2. replace the values with the ones you use for your local MySql database
 3. manually create a database with the name set in the db_config (db_name)
-4. run the populate.py script to create the database and populate it with mock data
+4. run the create_and_populate_database.py script to create the database and populate it with mock data
 
 
 ### Local Running
