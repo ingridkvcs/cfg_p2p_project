@@ -1,3 +1,7 @@
+# When ran, this creates all the tables and populates them with mock data.
+# Make sure to create the database in MySQl manually before running this.
+# Running this when the tables are already populates will result in an error. Make sure to drop the tables first.
+
 import csv
 
 from app import db

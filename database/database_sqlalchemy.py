@@ -1,3 +1,5 @@
+# Creates the Flask Application and configures and connects to the database using SQLAlchemy.
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 

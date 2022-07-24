@@ -1,3 +1,5 @@
+# Defines the model for the database tables
+
 from database.database_sqlalchemy import db
 
 

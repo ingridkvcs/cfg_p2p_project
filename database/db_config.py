@@ -1,3 +1,5 @@
+# Contains the configuration for the database conection
+
 username = "root"
 password = "mysql"
 host = "localhost"

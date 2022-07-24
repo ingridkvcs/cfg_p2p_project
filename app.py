@@ -1,3 +1,5 @@
+# Contains all the endpoints for this application
+
 from database.database_sqlalchemy import create_app, db
 from database.models import User
 
@@ -5,8 +7,8 @@ app = create_app()
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def main_page():
+    return
 
 
 @app.route('/database_test')
