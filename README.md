@@ -11,6 +11,10 @@ Nelli Zsoldos
 
 Sheryl Leslie
 
+## Project Management 
+We used jira to track our work. Our project is [here](https://cfg-p2p-2022.atlassian.net/jira/software/projects/P2P/boards/1/backlog).
+
+
 
 ## Running 
 
