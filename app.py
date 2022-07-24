@@ -18,7 +18,7 @@ def database_test():
     user_count = db.session.query(User).count()
     return f"We have {user_count} users"
 
- #comment test
+ # comment test 2
 
 if __name__ == '__main__':
     app.run()
