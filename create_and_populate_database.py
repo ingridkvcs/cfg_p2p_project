@@ -5,8 +5,8 @@
 import csv
 
 from app import db
-from database.database_sqlalchemy import create_app
 from database.models import User
+from init import create_app
 
 app = create_app()
 app.app_context().push()
@@ -15,6 +15,7 @@ print("Creating tables")
 db.create_all()
 
 print("Populating with mock data")
+
 with open("files/MOCK_DATA.csv", "r") as csvfile:
     csvreader = csv.reader(csvfile)
     next(csvreader, None)
