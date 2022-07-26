@@ -13,10 +13,9 @@ def main_page():
     return render_template("index.html", user_count=users)
 
 
-@app.route('/database_test')
-def database_test():
-    user_count = db.session.query(User).count()
-    return f"We have {user_count} users"
+@app.route('/my-account')
+def my_account_page():
+    return render_template("my_account.html")
 
 
 if __name__ == '__main__':
