@@ -6,22 +6,21 @@
 <div id="orders">
     <h2>My orders</h2>
     <table class="table table-striped">
+
         <thead>
-        <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Type of Order</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Interest</th>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
         </tr>
         </thead>
 
         <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{order[0]}}</td>
-            <td>{{order[1]}}</td>
-            <td>{{order[2]}}</td>
-            <td>{{order[3]}}</td>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
 
@@ -31,58 +30,49 @@
 
 <div id="lendings">
     <h2>My lendings</h2>
-
     <table class="table table-striped">
+
         <thead>
-        <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Type of Order</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Interest</th>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
         </tr>
         </thead>
 
         <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{order[0]}}</td>
-            <td>{{order[1]}}</td>
-            <td>{{order[2]}}</td>
-            <td>{{order[3]}}</td>
-        </tr>
-        {% endfor %}
-
-        </tbody>
-    </table>
-
-</div>
-
-<div id="borrowings">
-    <h2>My borrowings</h2>
-
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Type of Order</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Interest</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{order[0]}}</td>
-            <td>{{order[1]}}</td>
-            <td>{{order[2]}}</td>
-            <td>{{order[3]}}</td>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
         </tr>
         {% endfor %}
 
         </tbody>
     </table>
 </div>
+
+<div id="borrowings">    <table class="table table-striped">
+
+        <thead>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>div>
 
 {% endblock %}
