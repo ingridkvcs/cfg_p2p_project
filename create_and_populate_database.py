@@ -16,7 +16,7 @@ db.create_all()
 
 print("Populating with mock data")
 
-with open("files/MOCK_DATA.csv", "r") as csvfile:
+with open("files/mocked_data_user.csv", "r") as csvfile:
     csvreader = csv.reader(csvfile)
     next(csvreader, None)
     for row in csvreader:
