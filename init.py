@@ -1,5 +1,4 @@
 # Creates the Flask Application and configures and connects to the database using SQLAlchemy.
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,7 +9,12 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'fCjTw#zFc%sKcyBtU^TS85KY^9NEJFaCKqpv^vV93MPv@RkRCftqmdQAVtTjrsMF'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{db_name}'
     db.init_app(app)
+
+    from auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+
     return app
