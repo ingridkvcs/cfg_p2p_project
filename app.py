@@ -6,17 +6,10 @@ from init import create_app, db
 
 app = create_app()
 
-
 @app.route('/')
 def main_page():
     users = db.session.query(User).count()
     return render_template("index.html", user_count=users)
-
-
-@app.route('/main-page')
-def main_page_test():
-    # users = db.session.query(User).count()
-    return render_template("main_page.html")
 
 
 headers = ('Order Id', 'Type of Order', 'Amount', 'Interest')
