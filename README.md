@@ -14,6 +14,8 @@ Sheryl Leslie
 ## Project Management 
 We used jira to track our work. Our project is [here](https://cfg-p2p-2022.atlassian.net/jira/software/projects/P2P/boards/1/backlog).
 
+We also kept a googledoc for team notes [here](https://docs.google.com/document/d/15MX38uy9rM8bBO38-RFszHDzOQ-NM5E6sH_VTns2Z8k/edit).
+
 
 
 ## Running 
