@@ -1,10 +1,21 @@
 # Contains all the endpoints for this application
 from flask import render_template
+from flask_login import LoginManager, login_required, current_user
 
 from database.models import User
 from init import create_app, db
 
 app = create_app()
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 @app.route('/')
 def main_page():
@@ -33,8 +44,9 @@ orders = [
 
 
 @app.route('/my-account')
+@login_required
 def my_account_page():
-    return render_template("my_account.html", headers=headers, orders=orders)
+    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, headers=headers, orders=orders)
 
 
 if __name__ == '__main__':
