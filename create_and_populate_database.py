@@ -22,6 +22,7 @@ db.init_app(app)
 
 print("Populating with mock data")
 
+
 # The auto populating of User table data is not working - I will fix this tomorrow!
 
 # with open("files/mocked_data_user.csv", "r") as csvfile:
@@ -31,7 +32,7 @@ print("Populating with mock data")
 #        user = User(id=row[0], first_name=row[1], last_name=row[2], email=row[3], password=row[4])
 #        db.session.add(user)
 
-db.session.commit()
 
+db.session.commit()
 
 print("Successfully created the tables and populated them with mock data.")

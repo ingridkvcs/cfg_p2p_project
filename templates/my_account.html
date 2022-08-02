@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<h1>{{first_name}} {{last_name}}'s Account</h1>
+<div id="orders">
+    <h2>My orders</h2>
+    <table class="table table-striped">
+
+        <thead>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<div id="lendings">
+    <h2>My lendings</h2>
+    <table class="table table-striped">
+
+        <thead>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+<div id="borrowings">
+    <h2>My borrowings</h2>
+    <table class="table table-striped">
+
+        <thead>
+        <tr class="table__header">
+            {% for header in headers %}
+            <th class="table__cell">{{header}}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for row in orders %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">{{cell}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    div>
+
+    {% endblock %}
+</div>

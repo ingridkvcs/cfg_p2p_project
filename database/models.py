@@ -1,5 +1,5 @@
 # Defines the model for the database tables
-#from init import db
+
 from flask_login import UserMixin
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, relationship, backref
@@ -19,7 +19,6 @@ class User(UserMixin, Base):
     def __repr__(self):
         return '<User %r>' % self.email
 
-
 contracts = Table('contracts', Base.metadata, Column('contract_id', Integer, ForeignKey('Contract.id'), primary_key=True),
                 Column('borrower_id', Integer, ForeignKey('OrderBook.id'), primary_key=True),
                 Column('lender_id', Integer, ForeignKey('OrderBook.id'), primary_key=True))
@@ -37,8 +36,6 @@ class OrderBook(Base):
     
     def __repr__(self):
         return '<Order %r>' % self.id
-
-
 
 class Contract(Base):
     __tablename__ = "Contract"
