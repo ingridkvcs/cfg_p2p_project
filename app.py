@@ -31,22 +31,19 @@ orders = [
     (1434, 'Lending', 5500, 3.8),
     (5237, 'Borrowing', 7500, 5.5),
     (1838, 'Borrowing', 8800, 2.5),
-    (1234, 'Lending', 5000, 1.5),
-    (1634, 'Borrowing', 6900, 4.5),
-    (1234, 'Lending', 5500, 3.5),
-    (3264, 'Borrowing', 5500, 3.1),
-    (1434, 'Lending', 5500, 3.8),
-    (5237, 'Borrowing', 7500, 5.5),
-    (1838, 'Borrowing', 8800, 2.5),
-    (1234, 'Lending', 5000, 1.5),
-    (1634, 'Borrowing', 6900, 4.5),
-]
+    (1234, 'Lending', 5000, 1.5)
+    ]
 
 
 @app.route('/my-account')
 @login_required
 def my_account_page():
     return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, headers=headers, orders=orders)
+
+
+@app.route('/order-book')
+def order():
+    return render_template('order_book.html')
 
 
 if __name__ == '__main__':
