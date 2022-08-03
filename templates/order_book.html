@@ -7,25 +7,20 @@
 <div class="column is-4 is-offset-4">
     <h3 class="title">Place Order</h3>
     <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
-        </div>
-        {% endif %}
-        {% endwith %}
+        <!--        {% with messages = get_flashed_messages() %}-->
+        <!--        {% if messages %}-->
+        <!--        <div class="notification is-danger">-->
+        <!--            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.-->
+        <!--        </div>-->
+        <!--        {% endif %}-->
+        <!--        {% endwith %}-->
 
-        <div class="button">
-            <div class="type-order">
-                <button class="button is-block is-info is-large is-fullwidth">Buy</button>
-            </div>
+
+        <div class="button, type-order">
+            <button class="button is-block is-info" style="background-color:red;">Buy</button>
+            <button class="button is-block is-info" style="background-color:green;">Sell</button>
         </div>
 
-        <div class="button">
-            <div class="type-order">
-                <button class="button is-block is-info is-large is-fullwidth">Sell</button>
-            </div>
-        </div>
         <form method="POST" action="/order-book">
             <div class="field">
                 <div class="control">
