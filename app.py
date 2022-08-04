@@ -1,6 +1,7 @@
 # Contains all the endpoints for this application
-from flask import render_template
+from flask import render_template, request, url_for, flash
 from flask_login import LoginManager, login_required, current_user
+from werkzeug.utils import redirect
 
 from database.models import User
 from init import create_app, db
@@ -32,18 +33,36 @@ orders = [
     (5237, 'Borrowing', 7500, 5.5),
     (1838, 'Borrowing', 8800, 2.5),
     (1234, 'Lending', 5000, 1.5)
-    ]
+]
 
 
 @app.route('/my-account')
 @login_required
 def my_account_page():
-    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, headers=headers, orders=orders)
+    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
+                           headers=headers, orders=orders)
 
 
 @app.route('/order-book')
-def order():
+def order_book():
     return render_template('order_book.html')
+
+
+@app.route('/create-order', methods=['POST'])
+def create_order():
+    type = request.form.get('type')
+    amount = request.form.get('amount')
+    interest_rate = request.form.get('interest_rate')
+
+    if not amount or not amount.isnumeric() or int(amount) <= 0:
+        flash('Amount must be greater than 0.')
+        return redirect(url_for('order_book'))
+
+    if not interest_rate or not interest_rate.isnumeric() or int(interest_rate) <= 0:
+        flash('Interest rate must be greater than 0.')
+        return redirect(url_for('order_book'))
+
+    return redirect(url_for('order_book'))
 
 
 if __name__ == '__main__':
