@@ -44,11 +44,13 @@ def my_account_page():
 
 
 @app.route('/order-book')
+@login_required
 def order_book():
     return render_template('order_book.html')
 
 
 @app.route('/create-order', methods=['POST'])
+@login_required
 def create_order():
     type = request.form.get('type')
     amount = request.form.get('amount')
