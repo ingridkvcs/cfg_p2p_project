@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, url_for, redirect, request, flash
-from flask_login import login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash, check_password_hash
+from Investr import Blueprint, render_template, url_for, redirect, request, flash
+from Investr import login_user, logout_user, login_required
+from Investr import generate_password_hash, check_password_hash
 
-from database.models import User
-from init import db
+from Investr import User, db
+
 
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/login')
 def login():
