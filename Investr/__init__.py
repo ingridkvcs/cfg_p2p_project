@@ -10,7 +10,7 @@ from flask import Flask, Blueprint, render_template, url_for, redirect, request,
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 
-from sqlalchemy.orm import declarative_base, backref, relationship
+from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session, backref, relationship
 from sqlalchemy import exc, Column, Table, ForeignKey, Integer, String, Float, Date
 from sqlalchemy_utils import database_exists, create_database
 
