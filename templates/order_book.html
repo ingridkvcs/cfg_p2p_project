@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block page_links %}
+<!--<link rel="stylesheet" href="/static/css/index.css"/>-->
+{% endblock %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="column is-6 is-offset-1">
+            <h2 class="title">Order Book</h2>
+        </div>
+        <div class="column is-4">
+            <h2 class="title">Place Order</h2>
+            <div class="box">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="/create-order">
+                    <div class="field control">
+                        <input type="radio" value="buy" class="btn-check form-control" name="type" id="input-type-buy"
+                               autocomplete="off"
+                               checked>
+                        <label class="btn btn-outline-success" for="input-type-buy">Buy</label>
+                        <input type="radio" value="sell" class="btn-check form-control" name="type" id="input-type-sell"
+                               autocomplete="off">
+                        <label class="btn btn-outline-danger" for="input-type-sell">Sell</label>
+                    </div>
+
+                    <div class="field control">
+                        <input class="input is-large" type="number" min="1" name="amount" placeholder="Amount"
+                               autofocus=""
+                               required>
+                    </div>
+
+                    <div class="field control">
+                        <input class="input is-large" type="number" min="0" name="interest_rate"
+                               placeholder="Interest Rate"
+                               required>
+                    </div>
+
+                    <button class="button is-block is-info is-large is-fullwidth">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
