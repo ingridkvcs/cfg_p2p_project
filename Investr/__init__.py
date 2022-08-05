@@ -11,7 +11,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 
 from sqlalchemy.orm import declarative_base, backref, relationship
-from sqlalchemy import Column, Table, ForeignKey, Integer, String, Float, Date
+from sqlalchemy import exc, Column, Table, ForeignKey, Integer, String, Float, Date
+from sqlalchemy_utils import database_exists, create_database
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -19,5 +20,5 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from database.models import User, OrderBook, Contract, Base
 from database.db_config import db_name, port, host, password, username
-from init import create_app, create_db, db, engine
+from init import create_app, create_db, create_tables, create_populate_user, db, engine
 from app import app
