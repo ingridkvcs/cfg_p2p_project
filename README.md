@@ -27,9 +27,10 @@ We also kept a googledoc for team notes [here](https://docs.google.com/document/
 
 ### Database
 1. open db_config.py
-2. replace the values with the ones you use for your local MySql database
-3. manually create a database with the name set in the db_config (db_name)
-4. run the create_and_populate_database.py script to create the database and populate it with mock data
+2. replace the values with the ones you use for your local MySql database 
+3. <strike><i>manually create a database with the name set in the db_config (db_name)
+4. run the create_and_populate_database.py script to create the database and populate it with mock data</i></strike>
+5. <b>NEW: proceed straight to instructions for local running</b>
 
 
 ### Local Running
