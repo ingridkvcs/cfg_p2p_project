@@ -5,7 +5,7 @@ from Investr import LoginManager, login_required, current_user
 from Investr import redirect
 
 from Investr import User
-from init import create_app, create_db, db
+from init import create_app, create_db, db, create_tables, create_populate_user
 
 #Temporary while debugging
 logging.basicConfig()
@@ -13,10 +13,15 @@ logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 
+create_db()
+create_tables()
+
 app = create_app()
 app.app_context().push()
 
-create_db()
+create_populate_user()
+
+#create_db()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -78,4 +83,4 @@ def create_order():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
