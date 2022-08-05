@@ -1,13 +1,16 @@
 # Creates the Flask Application and configures and connects to the server instance using SQLAlchemy
 
-from Investr import Flask, SQLAlchemy, User, Base, csv
+from Investr import Flask, SQLAlchemy, User, Base, sessionmaker, scoped_session
 from Investr import exc, db_name, port, host, password, username
-from Investr import database_exists, create_database
+from Investr import database_exists, create_database, csv
 
 db = SQLAlchemy()
 server = f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{db_name}?auth_plugin=mysql_native_password'
+
 engine = db.create_engine(sa_url=server, engine_opts={})
 
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session = scoped_session(Session)
 
 # Creates the database
 
@@ -26,6 +29,7 @@ def create_tables():
     with engine.connect() as connection:
         # connection.execute(f"CREATE DATABASE IF NOT EXISTS {db_name};")
         engine.execute(f"USE {db_name};")
+        Base.query = session.query_property()
         Base.metadata.create_all(engine)
 
 
