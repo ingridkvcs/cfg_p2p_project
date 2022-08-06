@@ -1,11 +1,12 @@
 # Defines the model for the database tables
-from Investr import datetime
+from Investr import Column, ForeignKey, Integer, String, Float, Date
 from Investr import UserMixin
-from Investr import declarative_base, relationship, backref
-from Investr import Column, Table, ForeignKey, Integer, String, Float, Date
+from Investr import datetime
+from Investr import declarative_base
 
 print("Print base")
 Base = declarative_base()
+
 
 class User(UserMixin, Base):
     __tablename__ = "User"
@@ -18,9 +19,6 @@ class User(UserMixin, Base):
     def __repr__(self):
         return '<User %r>' % self.email
 
-contracts = Table('contracts', Base.metadata, Column('contract_id', Integer, ForeignKey('Contract.id'), primary_key=True),
-                Column('borrower_id', Integer, ForeignKey('Order.id'), primary_key=True),
-                Column('lender_id', Integer, ForeignKey('Order.id'), primary_key=True))
 
 class Order(Base):
     __tablename__ = "Order"
@@ -29,11 +27,10 @@ class Order(Base):
     order_type = Column(String(80), nullable=False)
     amount = Column(Float, nullable=False)
     interest_rate = Column(Float, nullable=False)
-    order_status = Column(String(80), nullable=False)
-    #contracts = relationship('Contract', secondary=contracts, lazy = 'subquery', backref = backref('order', lazy=True))
-    
+
     def __repr__(self):
         return '<Order %r>' % self.id
+
 
 class Contract(Base):
     __tablename__ = "Contract"
@@ -43,9 +40,6 @@ class Contract(Base):
     amount = Column(Float, nullable=False)
     interest_rate = Column(Float, nullable=False)
     date_created = Column(Date(), default=datetime.utcnow)
-    payment_date = Column(Date(), nullable=False)
-    payment_status = Column(String(20), nullable=False)
-    
+
     def __repr__(self):
         return '<Contract %r>' % self.id
-
