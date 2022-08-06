@@ -1,0 +1,11 @@
+id,user_id,order_type,amount,interest_rate,order_status
+1,10,Lender,2000,1.5,Pending
+2,30,Borrower,4000,0,Pending
+3,26,Lender,6000,2.5,Pending
+4,32,Lender,8000,3.5,Pending
+5,2,Borrower,10000,3.5,Pending
+6,17,Borrower,1000,1.5,Pending
+7,8,Borrower,6000,1.5,Pending
+8,21,Borrower,8000,2.5,Pending
+9,49,Lender,4000,0,Pending
+10,50,Borrower,500,1.5,Pending

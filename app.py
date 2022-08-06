@@ -4,7 +4,7 @@ from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
 from Investr import redirect
 
-from init import create_db, create_tables, create_populate_user
+from init import create_db, create_tables, create_populate_user, create_populate_orders
 
 from database.models import User, Order
 from init import create_app, db
@@ -22,7 +22,7 @@ app.app_context().push()
 
 create_populate_user()
 
-# create_db()
+create_populate_orders()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
