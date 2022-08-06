@@ -5,7 +5,7 @@ from Investr import LoginManager, login_required, current_user
 from Investr import redirect
 
 from Investr import User
-from init import create_app, create_db, db, create_tables, create_populate_user
+from Investr import create_app, create_db, db, create_tables, create_populate_user, create_populate_orders
 
 #Temporary while debugging
 logging.basicConfig()
@@ -20,8 +20,7 @@ app = create_app()
 app.app_context().push()
 
 create_populate_user()
-
-#create_db()
+create_populate_orders()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'

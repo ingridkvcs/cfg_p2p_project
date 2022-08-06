@@ -20,5 +20,5 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from database.models import User, OrderBook, Contract, Base
 from database.db_config import db_name, port, host, password, username
-from init import create_app, create_db, create_tables, create_populate_user, db, engine
+from init import create_app, create_db, create_tables, create_populate_user, create_populate_orders, db, engine
 from app import app
