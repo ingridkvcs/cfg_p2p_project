@@ -14,17 +14,16 @@ class User(UserMixin, Base):
     last_name = Column(String(80), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(200), nullable=False)
-    #orders = relationship('OrderBook', backref('User'), lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.email
 
 contracts = Table('contracts', Base.metadata, Column('contract_id', Integer, ForeignKey('Contract.id'), primary_key=True),
-                Column('borrower_id', Integer, ForeignKey('OrderBook.id'), primary_key=True),
-                Column('lender_id', Integer, ForeignKey('OrderBook.id'), primary_key=True))
+                Column('borrower_id', Integer, ForeignKey('Order.id'), primary_key=True),
+                Column('lender_id', Integer, ForeignKey('Order.id'), primary_key=True))
 
-class OrderBook(Base):
-    __tablename__ = "OrderBook"
+class Order(Base):
+    __tablename__ = "Order"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     order_type = Column(String(80), nullable=False)
@@ -39,8 +38,8 @@ class OrderBook(Base):
 class Contract(Base):
     __tablename__ = "Contract"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    borrower_id = Column(Integer, ForeignKey('OrderBook.id'), nullable=False)
-    lender_id = Column(Integer, ForeignKey('OrderBook.id'), nullable=False)
+    borrower_id = Column(Integer, ForeignKey('Order.id'), nullable=False)
+    lender_id = Column(Integer, ForeignKey('Order.id'), nullable=False)
     amount = Column(Float, nullable=False)
     interest_rate = Column(Float, nullable=False)
     date_created = Column(Date(), default=datetime.utcnow)

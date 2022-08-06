@@ -1,22 +1,18 @@
 # Contains all the endpoints for this application
-from flask import render_template, request, url_for, flash
-from flask_login import LoginManager, login_required, current_user
-from werkzeug.utils import redirect
 from Investr import logging
 from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
 from Investr import redirect
 
-from Investr import User
-from init import create_app, create_db, db, create_tables, create_populate_user
+from init import create_db, create_tables, create_populate_user
 
 from database.models import User, Order
 from init import create_app, db
-#Temporary while debugging
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
+# Temporary while debugging
+# logging.basicConfig()
+# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 create_db()
 create_tables()
@@ -26,7 +22,7 @@ app.app_context().push()
 
 create_populate_user()
 
-#create_db()
+# create_db()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -96,4 +92,5 @@ def create_order():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=true)
+    app.run()

@@ -18,7 +18,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # User-defined Modules
 
-from database.models import User, OrderBook, Contract, Base
+from database.models import User, Order, Contract, Base
 from database.db_config import db_name, port, host, password, username
 from init import create_app, create_db, create_tables, create_populate_user, db, engine
 from app import app

@@ -12,8 +12,8 @@ engine = db.create_engine(sa_url=server, engine_opts={})
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = scoped_session(Session)
 
-# Creates the database
 
+# Creates the database
 def create_db():
     if not database_exists(server):
         print("Creating database...")
@@ -23,7 +23,6 @@ def create_db():
 
 
 # Creates the tables within the database.
-
 def create_tables():
     print("Creating tables...")
     with engine.connect() as connection:
@@ -33,9 +32,7 @@ def create_tables():
         Base.metadata.create_all(engine)
 
 
-
 # Populates User table with mock data
-
 def create_populate_user():
     try:
         with open("files/mocked_data_user.csv", "r") as csvfile:
@@ -49,8 +46,8 @@ def create_populate_user():
     except exc.SQLAlchemyError:
         pass
 
-# Initialises the app
 
+# Initialises the app
 def create_app():
     print("Initialising app...")
     app = Flask(__name__)
@@ -63,4 +60,3 @@ def create_app():
     app.register_blueprint(auth_blueprint)
 
     return app
-
