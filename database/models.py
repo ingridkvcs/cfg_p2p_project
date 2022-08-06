@@ -1,10 +1,10 @@
 # Defines the model for the database tables
+from Investr import datetime
+from Investr import UserMixin
+from Investr import declarative_base, relationship, backref
+from Investr import Column, Table, ForeignKey, Integer, String, Float, Date
 
-from flask_login import UserMixin
-from datetime import datetime
-from sqlalchemy.orm import declarative_base, relationship, backref
-from sqlalchemy import Column, Table, ForeignKey, Integer, String, Float, Date
-
+print("Print base")
 Base = declarative_base()
 
 class User(UserMixin, Base):
@@ -14,7 +14,7 @@ class User(UserMixin, Base):
     last_name = Column(String(80), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(200), nullable=False)
-    orders = relationship('OrderBook', backref('User'), lazy=True)
+    #orders = relationship('OrderBook', backref('User'), lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.email
@@ -22,7 +22,6 @@ class User(UserMixin, Base):
 contracts = Table('contracts', Base.metadata, Column('contract_id', Integer, ForeignKey('Contract.id'), primary_key=True),
                 Column('borrower_id', Integer, ForeignKey('OrderBook.id'), primary_key=True),
                 Column('lender_id', Integer, ForeignKey('OrderBook.id'), primary_key=True))
-
 
 class OrderBook(Base):
     __tablename__ = "OrderBook"
@@ -32,7 +31,7 @@ class OrderBook(Base):
     amount = Column(Float, nullable=False)
     interest_rate = Column(Float, nullable=False)
     order_status = Column(String(80), nullable=False)
-    contracts = relationship('Contract', secondary=contracts, lazy = 'subquery', backref = backref('order', lazy=True))
+    #contracts = relationship('Contract', secondary=contracts, lazy = 'subquery', backref = backref('order', lazy=True))
     
     def __repr__(self):
         return '<Order %r>' % self.id
