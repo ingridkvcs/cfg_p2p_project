@@ -3,7 +3,7 @@ from flask import render_template, request, url_for, flash
 from flask_login import LoginManager, login_required, current_user
 from werkzeug.utils import redirect
 
-from database.models import User
+from database.models import User, Order
 from init import create_app, db
 
 app = create_app()
@@ -56,13 +56,21 @@ def create_order():
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
 
-    if not amount or not amount.isnumeric() or int(amount) <= 0:
+    if not amount or not amount.isnumeric() or float(amount) <= 0:
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
-    if not interest_rate or not interest_rate.isnumeric() or int(interest_rate) <= 0:
+    if not interest_rate or not interest_rate.isnumeric() or float(interest_rate) <= 0:
         flash('Interest rate must be greater than 0.')
         return redirect(url_for('order_book'))
+
+    order = Order()
+    order.type = type
+    order.amount = float(amount)
+    order.interest_rate = float(interest_rate)
+
+    db.session.add(order)
+    db.session.commit()
 
     return redirect(url_for('order_book'))
 
