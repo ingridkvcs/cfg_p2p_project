@@ -27,6 +27,7 @@ class Order(Base):
     order_type = Column(String(80), nullable=False)
     amount = Column(Integer, nullable=False)
     interest_rate = Column(Float, nullable=False)
+    order_status = Column(String(80), default="Pending")
 
     def __repr__(self):
         return '<Order %r>' % self.id

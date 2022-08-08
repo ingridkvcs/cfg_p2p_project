@@ -1,18 +1,17 @@
 # Contains all the endpoints for this application
+
 from Investr import logging
 from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
-from Investr import redirect
+from Investr import redirect, SQLAlchemy
+from Investr import create_db, create_tables, create_populate_user, create_populate_orders, create_app, db
+from Investr import User, Order
 
-from init import create_db, create_tables, create_populate_user, create_populate_orders
-
-from database.models import User, Order
-from init import create_app, db
 
 # Temporary while debugging
-# logging.basicConfig()
-# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 create_db()
 create_tables()
@@ -82,7 +81,8 @@ def order_book():
 @app.route('/create-order', methods=['POST'])
 @login_required
 def create_order():
-    type = request.form.get('type')
+    user_id = db.session.query(current_user.id)
+    order_type = request.form.get('order_type')
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
 
@@ -95,12 +95,16 @@ def create_order():
         return redirect(url_for('order_book'))
 
     order = Order()
-    order.type = type
+    order.user_id = user_id
+    order.order_type = order_type
     order.amount = float(amount)
     order.interest_rate = float(interest_rate)
 
-    db.session.add(order)
-    db.session.commit()
+    try:
+        db.session.add(order)
+        db.session.commit()
+    except SQLAlchemy.exc.IntegrityError:
+        db.session.rollback()
 
     return redirect(url_for('order_book'))
 
