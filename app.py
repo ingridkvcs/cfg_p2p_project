@@ -4,14 +4,15 @@ from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
 from Investr import redirect
 
-from Investr import User
-from Investr import create_app, create_db, db, create_tables, create_populate_user, create_populate_orders
+from init import create_db, create_tables, create_populate_user, create_populate_orders
 
-#Temporary while debugging
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+from database.models import User, Order
+from init import create_app, db
 
+# Temporary while debugging
+# logging.basicConfig()
+# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 create_db()
 create_tables()
@@ -20,6 +21,7 @@ app = create_app()
 app.app_context().push()
 
 create_populate_user()
+
 create_populate_orders()
 
 login_manager = LoginManager()
@@ -60,7 +62,21 @@ def my_account_page():
 @app.route('/order-book')
 @login_required
 def order_book():
-    return render_template('order_book.html')
+    # Get lend orders with the lowest interest rate
+    lend_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'lend') \
+        .order_by(Order.interest_rate.asc()) \
+        .limit(5) \
+        .all()[::-1]
+
+    # Get borrow orders with the highest interest rate
+    borrow_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'borrow') \
+        .order_by(Order.interest_rate.desc()) \
+        .limit(5) \
+        .all()
+
+    return render_template('order_book.html', lend_orders=lend_orders, borrow_orders=borrow_orders)
 
 
 @app.route('/create-order', methods=['POST'])
@@ -70,16 +86,25 @@ def create_order():
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
 
-    if not amount or not amount.isnumeric() or int(amount) <= 0:
+    if not amount or not amount.isnumeric() or float(amount) <= 0:
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
-    if not interest_rate or not interest_rate.isnumeric() or int(interest_rate) <= 0:
+    if not interest_rate or not interest_rate.isnumeric() or float(interest_rate) <= 0:
         flash('Interest rate must be greater than 0.')
         return redirect(url_for('order_book'))
+
+    order = Order()
+    order.type = type
+    order.amount = float(amount)
+    order.interest_rate = float(interest_rate)
+
+    db.session.add(order)
+    db.session.commit()
 
     return redirect(url_for('order_book'))
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=true)
+    app.run()

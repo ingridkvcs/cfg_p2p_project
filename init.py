@@ -1,6 +1,6 @@
 # Creates the Flask Application and configures and connects to the server instance using SQLAlchemy
 
-from Investr import Flask, SQLAlchemy, User, OrderBook, Base, sessionmaker, scoped_session
+from Investr import Flask, SQLAlchemy, User, Order, Base, sessionmaker, scoped_session
 from Investr import exc, db_name, port, host, password, username
 from Investr import database_exists, create_database, csv
 
@@ -14,7 +14,6 @@ session = scoped_session(Session)
 
 
 # Creates the database
-
 def create_db():
     if not database_exists(server):
         print("Creating database...")
@@ -24,7 +23,6 @@ def create_db():
 
 
 # Creates the tables within the database.
-
 def create_tables():
     print("Creating tables...")
     with engine.connect() as connection:
@@ -35,7 +33,6 @@ def create_tables():
 
 
 # Populates User table with mock data
-
 def create_populate_user():
     try:
         with open("files/mocked_data_user.csv", "r") as csvfile:
@@ -58,8 +55,7 @@ def create_populate_orders():
             csvreader = csv.reader(csvfile)
             next(csvreader, None)
             for row in csvreader:
-                order = OrderBook(id=row[0], user_id=row[1], order_type=row[2], amount=row[3], interest_rate=row[4],
-                                  order_status=row[5])
+                order = Order(id=row[0], user_id=row[1], order_type=row[2], amount=row[3], interest_rate=row[4],)
                 db.session.add(order)
                 db.session.commit()
         print("Populating with Order data...")
@@ -68,7 +64,6 @@ def create_populate_orders():
 
 
 # Initialises the app
-
 def create_app():
     print("Initialising app...")
     app = Flask(__name__)
