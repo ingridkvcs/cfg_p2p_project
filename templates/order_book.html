@@ -1,15 +1,51 @@
 {% extends "base.html" %}
 {% block page_links %}
-<!--<link rel="stylesheet" href="/static/css/index.css"/>-->
+<!--<link rel="stylesheet" href="/static/css/order-book.css"/>-->
 {% endblock %}
 {% block title %}Sign up{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="column is-6 is-offset-1">
+        <div class="column is-4 is-offset-1">
             <h2 class="title">Order Book</h2>
+            <h3>Lend Orders</h3>
+            <table class="table">
+                <thead class="table-dark">
+                <tr>
+                    <th class="text-white">Interest Rate</th>
+                    <th class="text-white">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in lend_orders %}
+                <tr class="bg-danger">
+                    <td class="text-white">{{order.interest_rate}}%</td>
+                    <td class="text-white">£{{order.amount}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>Borrow Orders</h3>
+            <table class="table">
+                <thead class="table-dark">
+                <tr>
+                    <th class="text-white">Interest Rate</th>
+                    <th class="text-white">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in borrow_orders %}
+                <tr class="bg-success">
+                    <td class="text-white">{{order.interest_rate}}%</td>
+                    <td class="text-white">£{{order.amount}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
         </div>
-        <div class="column is-4">
+        <div class="column is-4 is-offset-2">
             <h2 class="title">Place Order</h2>
             <div class="box">
                 {% with messages = get_flashed_messages() %}
@@ -22,13 +58,14 @@
 
                 <form method="POST" action="/create-order">
                     <div class="field control">
-                        <input type="radio" value="buy" class="btn-check form-control" name="type" id="input-type-buy"
+                        <input type="radio" value="borrow" class="btn-check form-control" name="type"
+                               id="input-type-borrow"
                                autocomplete="off"
                                checked>
-                        <label class="btn btn-outline-success" for="input-type-buy">Buy</label>
-                        <input type="radio" value="sell" class="btn-check form-control" name="type" id="input-type-sell"
+                        <label class="btn btn-outline-success" for="input-type-borrow">Borrow</label>
+                        <input type="radio" value="lend" class="btn-check form-control" name="type" id="input-type-lend"
                                autocomplete="off">
-                        <label class="btn btn-outline-danger" for="input-type-sell">Sell</label>
+                        <label class="btn btn-outline-danger" for="input-type-lend">Lend</label>
                     </div>
 
                     <div class="field control">
