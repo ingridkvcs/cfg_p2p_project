@@ -1,5 +1,5 @@
 user_id,first_name,last_name,email,password
-1,Yovonnda,Undy,yundy0@cbsnews.com,PMnYC39tV
+1,Test,McTester,test@test.com,sha256$AhltVBzuTPQwdEDl$a865b9a80e920e39e462e35d5eb2eb84c9fb8b9ddfaf298ee43218bcc70f9792
 2,Dolli,Olyunin,dolyunin1@ed.gov,HfQqquCtQ
 3,Larine,Reddyhoff,lreddyhoff2@sohu.com,BtrrFAd
 4,Johan,Darrell,jdarrell3@uiuc.edu,6YDikYFhb
