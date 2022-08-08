@@ -62,7 +62,21 @@ def my_account_page():
 @app.route('/order-book')
 @login_required
 def order_book():
-    return render_template('order_book.html')
+    # Get lend orders with the lowest interest rate
+    lend_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'lend') \
+        .order_by(Order.interest_rate.asc()) \
+        .limit(5) \
+        .all()[::-1]
+
+    # Get borrow orders with the highest interest rate
+    borrow_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'borrow') \
+        .order_by(Order.interest_rate.desc()) \
+        .limit(5) \
+        .all()
+
+    return render_template('order_book.html', lend_orders=lend_orders, borrow_orders=borrow_orders)
 
 
 @app.route('/create-order', methods=['POST'])
