@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="html">
 <head>
     {% block head %}
     <title>{% block title %}{% endblock %} - P2P</title>
@@ -12,12 +12,14 @@
     {% block page_links %} {% endblock %}
     {% endblock %}
 </head>
-<body>
+<body class="body">
 {% include 'navbar.html' %}
 <div id="content">{% block content %}{% endblock %}</div>
 <div id="footer">
+    <p><b>CFG P2P Lending project - 2022</b></p>
     {% block footer %}
     {% endblock %}
 </div>
 </body>
+
 </html>
