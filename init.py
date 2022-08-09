@@ -3,6 +3,7 @@
 from Investr import Flask, SQLAlchemy, User, Order, Base, sessionmaker, scoped_session
 from Investr import exc, db_name, port, host, password, username
 from Investr import database_exists, create_database, csv
+from database.models import Contract
 
 db = SQLAlchemy()
 server = f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{db_name}?auth_plugin=mysql_native_password'
@@ -33,7 +34,7 @@ def create_tables():
 
 
 # Populates User table with mock data
-def create_populate_user():
+def create_populate_users():
     try:
         with open("files/mocked_data_user.csv", "r") as csvfile:
             csvreader = csv.reader(csvfile)
@@ -62,6 +63,18 @@ def create_populate_orders():
     except exc.SQLAlchemyError:
         pass
 
+def create_populate_contracts():
+    try:
+        with open("files/mocked_data_contract.csv", "r") as csvfile:
+            csvreader = csv.reader(csvfile)
+            next(csvreader, None)
+            for row in csvreader:
+                contract = Contract (id=row[0], borrower_id=row[1], lender_id=row[2], amount=row[3], interest_rate=row[4], date_created=row[5])
+                db.session.add(contract)
+                db.session.commit()
+        print("Populating with Contract data...")
+    except exc.SQLAlchemyError as ex:
+        print(ex)
 
 # Initialises the app
 def create_app():

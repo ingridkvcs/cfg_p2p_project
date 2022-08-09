@@ -3,80 +3,63 @@
 
 {% block content %}
 <h1>{{first_name}} {{last_name}}'s Account</h1>
-<div id="orders">
-    <h2>My orders</h2>
-    <table class="table table-striped">
+<div class="row">
+    <div id="orders" class="col-sm-5">
+        <h2>My Orders</h2>
+        <table class="table table-striped">
 
-        <thead>
-        <tr class="table__header">
-            {% for header in headers %}
-            <th class="table__cell">{{header}}</th>
+            <thead>
+            <tr class="table__header">
+                <th>ID</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Interest Rate</th>
+                <th>Cancel</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{order.id}}</td>
+                <td>{{order.order_type}}</td>
+                <td>£{{order.amount}}</td>
+                <td>{{order.interest_rate}}%</td>
+                <td><a href="#"><i class="fa fa-close" style="font-size:24px;color:red"></i></a></td>
+            </tr>
             {% endfor %}
-        </tr>
-        </thead>
 
-        <tbody>
-        {% for row in orders %}
-        <tr class="table__row">
-            {% for cell in row %}
-            <td class="table__cell">{{cell}}</td>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="contract" class="col-sm-5 offset-sm-2">
+        <h2>My Contracts</h2>
+        <table class="table table-striped">
+
+            <thead>
+            <tr class="table__header">
+                <th>ID</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Interest Rate</th>
+                <th>Date Created</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for contract in contracts %}
+            <tr>
+                <td>{{contract.id}}</td>
+                <td>{{contract.type}}</td>
+                <td>£{{contract.amount}}</td>
+                <td>{{contract.interest_rate}}%</td>
+                <td>{{contract.date_created}}</td>
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<div id="lendings">
-    <h2>My lendings</h2>
-    <table class="table table-striped">
-
-        <thead>
-        <tr class="table__header">
-            {% for header in headers %}
-            <th class="table__cell">{{header}}</th>
-            {% endfor %}
-        </tr>
-        </thead>
-
-        <tbody>
-        {% for row in orders %}
-        <tr class="table__row">
-            {% for cell in row %}
-            <td class="table__cell">{{cell}}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-
-        </tbody>
-    </table>
-</div>
-
-
-<div id="borrowings">
-    <h2>My borrowings</h2>
-    <table class="table table-striped">
-
-        <thead>
-        <tr class="table__header">
-            {% for header in headers %}
-            <th class="table__cell">{{header}}</th>
-            {% endfor %}
-        </tr>
-        </thead>
-
-        <tbody>
-        {% for row in orders %}
-        <tr class="table__row">
-            {% for cell in row %}
-            <td class="table__cell">{{cell}}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-
-        </tbody>
-    </table>
-
-    {% endblock %}
-</div>
+{% endblock %}

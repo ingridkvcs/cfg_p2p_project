@@ -4,85 +4,83 @@
 {% endblock %}
 {% block title %}Sign up{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="column is-4 is-offset-1">
-            <h1>Order Book</h1>
-            <h2>Lend Orders</h2>
-            <table class="table">
-                <thead class="table-dark">
-                <tr>
-                    <th class="text-white">Interest Rate</th>
-                    <th class="text-white">Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for order in lend_orders %}
-                <tr class="bg-danger">
-                    <td class="text-white">{{order.interest_rate}}%</td>
-                    <td class="text-white">£{{order.amount}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+<div class="row">
+    <div class="column is-4 is-offset-1">
+        <h1>Order Book</h1>
+        <h2>Lend Orders</h2>
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th class="text-white">Interest Rate</th>
+                <th class="text-white">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in lend_orders %}
+            <tr class="bg-danger">
+                <td class="text-white">{{order.interest_rate}}%</td>
+                <td class="text-white">£{{order.amount}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-            <h2>Borrow Orders</h2>
-            <table class="table">
-                <thead class="table-dark">
-                <tr>
-                    <th class="text-white">Interest Rate</th>
-                    <th class="text-white">Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for order in borrow_orders %}
-                <tr class="bg-success">
-                    <td class="text-white">{{order.interest_rate}}%</td>
-                    <td class="text-white">£{{order.amount}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        <h2>Borrow Orders</h2>
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th class="text-white">Interest Rate</th>
+                <th class="text-white">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in borrow_orders %}
+            <tr class="bg-success">
+                <td class="text-white">{{order.interest_rate}}%</td>
+                <td class="text-white">£{{order.amount}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-        </div>
-        <div class="column is-4 is-offset-2">
-            <h2>Place Order</h2>
-            <div class="box">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="notification is-danger">
-                    {{ messages[0] }}
-                </div>
-                {% endif %}
-                {% endwith %}
-
-                <form method="POST" action="/create-order">
-                    <div class="field control">
-                        <input type="radio" value="borrow" class="btn-check form-control" name="order_type"
-                               id="input-type-borrow"
-                               autocomplete="off"
-                               checked>
-                        <label class="btn btn-outline-success" for="input-type-borrow">Borrow</label>
-                        <input type="radio" value="lend" class="btn-check form-control" name="order_type" id="input-type-lend"
-                               autocomplete="off">
-                        <label class="btn btn-outline-danger" for="input-type-lend">Lend</label>
-                    </div>
-
-                    <div class="field control">
-                        <input class="input is-large" type="number" min="1" name="amount" placeholder="Amount"
-                               autofocus=""
-                               required>
-                    </div>
-
-                    <div class="field control">
-                        <input class="input is-large" type="number" min="0" name="interest_rate"
-                               placeholder="Interest Rate"
-                               required>
-                    </div>
-
-                    <button class="button is-block is-info is-large is-fullwidth">Submit</button>
-                </form>
+    </div>
+    <div class="column is-4 is-offset-2">
+        <h2>Place Order</h2>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
             </div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/order">
+                <div class="field control">
+                    <input type="radio" value="borrow" class="btn-check form-control" name="order_type"
+                           id="input-type-borrow"
+                           autocomplete="off"
+                           checked>
+                    <label class="btn btn-outline-success" for="input-type-borrow">Borrow</label>
+                    <input type="radio" value="lend" class="btn-check form-control" name="order_type" id="input-type-lend"
+                           autocomplete="off">
+                    <label class="btn btn-outline-danger" for="input-type-lend">Lend</label>
+                </div>
+
+                <div class="field control">
+                    <input class="input is-large" type="number" min="1" name="amount" placeholder="Amount"
+                           autofocus=""
+                           required>
+                </div>
+
+                <div class="field control">
+                    <input class="input is-large" type="number" min="0" name="interest_rate"
+                           placeholder="Interest Rate"
+                           required>
+                </div>
+
+                <button class="button is-block is-info is-large is-fullwidth">Submit</button>
+            </form>
         </div>
     </div>
 </div>

@@ -1,17 +1,19 @@
 # Contains all the endpoints for this application
+from sqlalchemy import or_
 
 from Investr import logging
 from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
 from Investr import redirect, SQLAlchemy
-from Investr import create_db, create_tables, create_populate_user, create_populate_orders, create_app, db
+from Investr import create_db, create_tables, create_populate_users, create_populate_orders, create_app, db
 from Investr import User, Order
 
-
 # Temporary while debugging
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+# logging.basicConfig()
+# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+from database.models import Contract
+from init import create_populate_contracts
 
 create_db()
 create_tables()
@@ -19,9 +21,9 @@ create_tables()
 app = create_app()
 app.app_context().push()
 
-create_populate_user()
-
+create_populate_users()
 create_populate_orders()
+create_populate_contracts()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -39,24 +41,32 @@ def main_page():
     return render_template("index.html", user_count=users)
 
 
-headers = ('Order Id', 'Type of Order', 'Amount', 'Interest')
-orders = [
-
-    (1234, 'Lending', 5500, 3.5),
-    (3264, 'Borrowing', 5500, 3.1),
-    (1434, 'Lending', 5500, 3.8),
-    (5237, 'Borrowing', 7500, 5.5),
-    (1838, 'Borrowing', 8800, 2.5),
-    (1234, 'Lending', 5000, 1.5)
-]
-
-
 @app.route('/my-account')
 @login_required
 def my_account_page():
-    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
-                           headers=headers, orders=orders)
+    contracts = db.session.query(Contract) \
+        .filter(or_(Contract.borrower_id == current_user.id, Contract.lender_id == current_user.id)) \
+        .order_by(Contract.date_created.desc()) \
+        .all()
 
+    for contract in contracts:
+        if current_user.id == contract.borrower_id:
+            contract.type = "borrow"
+        elif current_user.id == contract.lender_id:
+            contract.type = "lend"
+        else:
+            raise Exception("The specified user is not part of this contract.")
+
+    orders = db.session.query(Order) \
+        .filter(Order.user_id == current_user.id) \
+        .all()
+
+
+    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, contracts=contracts, orders=orders)
+
+
+# ("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
+#                            headers=headers, orders=orders)
 
 @app.route('/order-book')
 @login_required
@@ -78,7 +88,7 @@ def order_book():
     return render_template('order_book.html', lend_orders=lend_orders, borrow_orders=borrow_orders)
 
 
-@app.route('/create-order', methods=['POST'])
+@app.route('/order', methods=['POST'])
 @login_required
 def create_order():
     user_id = db.session.query(current_user.id)
@@ -86,7 +96,7 @@ def create_order():
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
 
-    if not amount or not amount.isnumeric() or float(amount) <= 0:
+    if not amount or not amount.isnumeric() or int(amount) <= 0:
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
@@ -97,7 +107,7 @@ def create_order():
     order = Order()
     order.user_id = user_id
     order.order_type = order_type
-    order.amount = float(amount)
+    order.amount = int(amount)
     order.interest_rate = float(interest_rate)
 
     try:
@@ -107,6 +117,13 @@ def create_order():
         db.session.rollback()
 
     return redirect(url_for('order_book'))
+
+
+@app.route('/order', methods=['DELETE'])
+# @login_required
+def delete_order():
+    id = request.form.get('id')
+    return {}
 
 
 if __name__ == '__main__':
