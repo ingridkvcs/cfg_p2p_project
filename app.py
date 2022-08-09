@@ -51,13 +51,18 @@ def my_account_page():
 
     for contract in contracts:
         if current_user.id == contract.borrower_id:
-            contract.type = "Borrow"
+            contract.type = "borrow"
         elif current_user.id == contract.lender_id:
-            contract.type = "Lend"
+            contract.type = "lend"
         else:
             raise Exception("The specified user is not part of this contract.")
 
-    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, contracts=contracts)
+    orders = db.session.query(Order) \
+        .filter(Order.user_id == current_user.id) \
+        .all()
+
+
+    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, contracts=contracts, orders=orders)
 
 
 # ("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
@@ -83,7 +88,7 @@ def order_book():
     return render_template('order_book.html', lend_orders=lend_orders, borrow_orders=borrow_orders)
 
 
-@app.route('/create-order', methods=['POST'])
+@app.route('/order', methods=['POST'])
 @login_required
 def create_order():
     user_id = db.session.query(current_user.id)
@@ -91,7 +96,7 @@ def create_order():
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
 
-    if not amount or not amount.isnumeric() or float(amount) <= 0:
+    if not amount or not amount.isnumeric() or int(amount) <= 0:
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
@@ -102,7 +107,7 @@ def create_order():
     order = Order()
     order.user_id = user_id
     order.order_type = order_type
-    order.amount = float(amount)
+    order.amount = int(amount)
     order.interest_rate = float(interest_rate)
 
     try:
@@ -112,6 +117,13 @@ def create_order():
         db.session.rollback()
 
     return redirect(url_for('order_book'))
+
+
+@app.route('/order', methods=['DELETE'])
+# @login_required
+def delete_order():
+    id = request.form.get('id')
+    return {}
 
 
 if __name__ == '__main__':
