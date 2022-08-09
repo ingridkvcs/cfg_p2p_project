@@ -42,5 +42,6 @@ class Contract(Base):
     interest_rate = Column(Float, nullable=False)
     date_created = Column(Date(), default=datetime.utcnow)
 
+
     def __repr__(self):
         return '<Contract %r>' % self.id

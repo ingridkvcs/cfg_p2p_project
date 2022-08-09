@@ -49,6 +49,14 @@ def my_account_page():
         .order_by(Contract.date_created.desc()) \
         .all()
 
+    for contract in contracts:
+        if current_user.id == contract.borrower_id:
+            contract.type = "Borrow"
+        elif current_user.id == contract.lender_id:
+            contract.type = "Lend"
+        else:
+            raise Exception("The specified user is not part of this contract.")
+
     return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, contracts=contracts)
 
 

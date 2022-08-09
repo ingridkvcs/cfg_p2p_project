@@ -36,6 +36,7 @@
             <thead>
             <tr class="table__header">
                 <th>ID</th>
+                <th>Type</th>
                 <th>Amount</th>
                 <th>Interest Rate</th>
                 <th>Date Created</th>
@@ -46,6 +47,7 @@
             {% for contract in contracts %}
             <tr>
                 <td>{{contract.id}}</td>
+                <td>{{contract.type}}</td>
                 <td>£{{contract.amount}}</td>
                 <td>{{contract.interest_rate}}%</td>
                 <td>{{contract.date_created}}</td>
