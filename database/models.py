@@ -36,8 +36,8 @@ class Order(Base):
 class Contract(Base):
     __tablename__ = "Contract"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    borrower_id = Column(Integer, ForeignKey('Order.id'), nullable=False)
-    lender_id = Column(Integer, ForeignKey('Order.id'), nullable=False)
+    borrower_id = Column(Integer, ForeignKey('User.id'), nullable=False)
+    lender_id = Column(Integer, ForeignKey('User.id'), nullable=False)
     amount = Column(Integer, nullable=False)
     interest_rate = Column(Float, nullable=False)
     date_created = Column(Date(), default=datetime.utcnow)
