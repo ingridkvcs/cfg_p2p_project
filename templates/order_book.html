@@ -47,15 +47,7 @@
     <div class="column is-4 is-offset-2">
         <h2>Place Order</h2>
         <div class="box">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-            {% endif %}
-            {% endwith %}
-
-            <form method="POST" action="/order">
+            <form method="POST" action="/create-order">
                 <div class="field control">
                     <input type="radio" value="borrow" class="btn-check form-control" name="order_type"
                            id="input-type-borrow"
