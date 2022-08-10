@@ -10,64 +10,65 @@ orders = (['Lending', 1000, 5.15],
           ['Borrowing', 10000, 6],
           ['Lending', 20000, 4.1])
 
-current_order = ['Borrowing', 2500, 4.9]
+current_order = ['Lending', 5000, 5.1]
 
-
-def Lending(Borrow_list, current_order, Lending_list):
+def lending(borrow_list, current_order, lending_list):
     Total = current_order[1]
-    for i in range(len(Borrow_list)):
-        if current_order[2] == Borrow_list[i][2]:
+    for i in range(len(borrow_list)):
+        if current_order[2] == borrow_list[i][2]:
             if Total > 0:
-                Total -= Borrow_list[i][1]
+                Total -= borrow_list[i][1]
                 if Total >= 0:
-                    Borrow_list[i][1] = 0
+                    borrow_list[i][1] = 0
                 else:
-                    Borrow_list[i][1] = abs(Total)
+                    borrow_list[i][1] = abs(Total)
                     break
     else:
         current_order[1] = Total
-        Lending_list.append(current_order)
+        lending_list.append(current_order)
 
-    Borrow_list = [value for value in Borrow_list if value[1] != 0]
+    borrow_list = [value for value in borrow_list if value[1] != 0]
 
-    print(sorted(Borrow_list, key=lambda Borrow_list: Borrow_list[2]))
-    print(sorted(Lending_list, key=lambda Lending_list: Lending_list[2]))
+    return [(sorted(lending_list, key=lambda lending_list: lending_list[2])),
+            (sorted(borrow_list, key=lambda borrow_list: borrow_list[2]))]
 
 
-def Borrowing(Lending_list, current_order, Borrow_list):
+def borrowing(lending_list, current_order, borrow_list):
     Total = current_order[1]
-    for i in range(len(Lending_list)):
-        if current_order[2] == Lending_list[i][2]:
+    for i in range(len(lending_list)):
+        if current_order[2] == lending_list[i][2]:
             if Total > 0:
-                Total -= Lending_list[i][1]
+                Total -= lending_list[i][1]
                 if Total >= 0:
-                    Lending_list[i][1] = 0
+                    lending_list[i][1] = 0
                 else:
-                    Lending_list[i][1] = abs(Total)
+                    lending_list[i][1] = abs(Total)
                     break
     else:
         current_order[1] = Total
-        Borrow_list.append(current_order)
-    Lending_list = [value for value in Lending_list if value[1] != 0]
+        borrow_list.append(current_order)
+    lending_list = [value for value in lending_list if value[1] != 0]
 
-    print(sorted(Lending_list, key=lambda Lending_list: Lending_list[2]))
-    print(sorted(Borrow_list, key=lambda Borrow_list: Borrow_list[2]))
+    return [(sorted(lending_list, key=lambda lending_list: lending_list[2])),
+           (sorted(borrow_list, key=lambda borrow_list: borrow_list[2]))]
 
 
 def order_matching(current_order, orders):
-    Lend_list = []
-    Borrow_list = []
+    lend_list = []
+    borrow_list = []
     for i in range(len(orders)):
         if orders[i][0] == 'Lending':
-            Lend_list.append(orders[i])
+            lend_list.append(orders[i])
         elif orders[i][0] == 'Borrowing':
-            Borrow_list.append(orders[i])
+            borrow_list.append(orders[i])
 
     if current_order[0] == 'Lending':
-        Lending(Borrow_list, current_order, Lend_list)
+        return lending(borrow_list, current_order, lend_list)
 
     elif current_order[0] == 'Borrowing':
-        Borrowing(Lend_list, current_order, Borrow_list)
+        return borrowing(lend_list, current_order, borrow_list)
 
 
-order_matching(current_order, orders)
+print(order_matching(current_order, orders))
+
+
