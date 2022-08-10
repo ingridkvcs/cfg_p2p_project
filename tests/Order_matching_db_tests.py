@@ -32,8 +32,8 @@ class OrderMatchDbTesting(TestCase):
         ])
 
     def test_givenMockOrders_whenRunningATest_thenThe4LendOrdersAnd4BorrowOrdersAreLoaded(self):
-        self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "lend").all()), 4)
-        self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "borrow").all()), 4)
+        self.assertEqual(self.session.query(Order).filter(Order.order_type == "lend").count(), 4)
+        self.assertEqual(self.session.query(Order).filter(Order.order_type == "borrow").count(), 4)
 
     """
     Tests for LEND order type
