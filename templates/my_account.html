@@ -20,13 +20,17 @@
 
             <tbody>
             {% for order in orders %}
-            <tr>
-                <td>{{order.id}}</td>
-                <td>{{order.order_type}}</td>
-                <td>£{{order.amount}}</td>
-                <td>{{order.interest_rate}}%</td>
-                <td><a href="#"><i class="fa fa-close" style="font-size:24px;color:red"></i></a></td>
-            </tr>
+            <form method="POST" action="/delete-order" onsubmit="location.reload(true)">
+                <tr>
+                    <input type = "hidden" name = "id" value = "{{order.id}}" />
+                    <td>{{order.id}}</td>
+                    <td>{{order.order_type}}</td>
+                    <td>£{{order.amount}}</td>
+                    <td>{{order.interest_rate}}%</td>
+
+                    <td><button><i class="fa fa-close" style="font-size:24px;color:red"></i></button></td>
+                </tr>
+            </form>
             {% endfor %}
 
             </tbody>

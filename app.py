@@ -1,5 +1,5 @@
 # Contains all the endpoints for this application
-from sqlalchemy import or_
+from sqlalchemy import or_, and_, delete
 
 from Investr import logging
 from Investr import render_template, request, url_for, flash
@@ -61,8 +61,8 @@ def my_account_page():
         .filter(Order.user_id == current_user.id) \
         .all()
 
-
-    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name, contracts=contracts, orders=orders)
+    return render_template("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
+                           contracts=contracts, orders=orders)
 
 
 # ("my_account.html", first_name=current_user.first_name, last_name=current_user.last_name,
@@ -88,7 +88,7 @@ def order_book():
     return render_template('order_book.html', lend_orders=lend_orders, borrow_orders=borrow_orders)
 
 
-@app.route('/order', methods=['POST'])
+@app.route('/create-order', methods=['POST'])
 @login_required
 def create_order():
     user_id = db.session.query(current_user.id)
@@ -119,11 +119,19 @@ def create_order():
     return redirect(url_for('order_book'))
 
 
-@app.route('/order', methods=['DELETE'])
-# @login_required
+@app.route('/delete-order', methods=['POST'])
+@login_required
 def delete_order():
     id = request.form.get('id')
-    return {}
+
+    delete_command = delete(Order).where(and_(Order.id == id, Order.user_id == current_user.id))
+    result = db.session.execute(delete_command)
+    db.session.commit()
+
+    if result.rowcount == 0:
+        flash("Couldn't delete order")
+
+    return redirect(url_for('my_account_page'))
 
 
 if __name__ == '__main__':
