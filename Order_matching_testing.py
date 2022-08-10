@@ -13,6 +13,7 @@ orders = (['Lending', 1000, 5.15],
           ['Borrowing', 10000, 6],
           ['Lending', 20000, 4.1])
 
+
 class TestOrderMatchingFunction(TestCase):
     def test_borrow_list_no_interest_rate(self):
         expected = [[['Lending', 20000, 4.1],

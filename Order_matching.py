@@ -12,7 +12,6 @@ orders = (['Lending', 1000, 5.15],
 
 current_order = ['Lending', 5000, 5.1]
 
-
 def lending(borrow_list, current_order, lending_list):
     Total = current_order[1]
     for i in range(len(borrow_list)):
