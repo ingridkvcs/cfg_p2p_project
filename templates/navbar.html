@@ -1,6 +1,8 @@
-<nav>
-    TO DO NAVBAR
-</nav>
+<!--<nav>-->
+<!--    <div class="links">-->
+<!--          <a href="index"><font size="+3"><b>Home</b></font></a>-->
+<!--        </div>-->
+<!--</nav>-->
 <div class="navbar-end">
     {% if not current_user.is_authenticated %}
     <a href="{{ url_for('auth.login') }}" class="navbar-item">
