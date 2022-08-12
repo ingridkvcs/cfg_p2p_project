@@ -1,6 +1,5 @@
 from Investr import requests, json
 from Investr import go
-import kaleido
 
 url = "https://fear-and-greed-index.p.rapidapi.com/v1/fgi"
 
@@ -58,5 +57,5 @@ fig.update_traces(
     }
 )
 
-img = fig.to_image("fng/fear_greed.png", engine=kaleido)
+fig.write_html("graph.html")
 # fig.show()
