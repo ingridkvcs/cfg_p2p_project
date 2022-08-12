@@ -1,18 +1,19 @@
 .html{
-    margin: 6px;
+    margin: 0.5vw;
     scroll-behavior: smooth;
     background-color: #314357;
 }
 
 .body{
-    border-radius: 0 0 5% 5%;
+    width: 98vw;
+    border-radius: 0 0 3vw 3vw;
 }
 
 .navbar-item{
-    margin: 6px;
+    margin: 0.5vw;
     background-color: #c98c70;
     color: #314357;
-    border-radius: 15% 15% 15% 15%;
+    border-radius: 1vw 1vw 1vw 1vw;
     text-decoration: none;
 }
 
@@ -34,8 +35,8 @@
 
 .title {
   background-color: #FFFFFF;
-  width: 100%;
-  height: 300px;
+  width: 97.5vw;
+  height: 20vw;
   background-repeat: no-repeat;
   background-size: cover;
   border: 3px white;
@@ -45,29 +46,29 @@
   text-transform: uppercase;
   -webkit-text-stroke: 0.5px #314357;
   background-image: url(https://live.staticflickr.com/65535/52272296739_4f722e4798_h.jpg);
-  background-position-y: 30%;
+  background-position-y: 0vw;
 }
 
 #content{
-    margin: 5px;
+    margin: 0.3vw;
 }
 
 .container {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 10vw;
     justify-content: center;
     color:#314357;
-    padding:10px;
+    padding:3vw;
     text-align: center;
 }
 
 .lenders{
     flex: center;
-    width: 40%;
+    width: 40vw;
     border: 2px solid #456672;
-    border-radius: 10% 10% 10% 10%;
-    padding: 10px;
+    border-radius: 2vw 2vw 2vw 2vw;
+    padding: 1vw;
     background-color: #FFFFFF;
     box-shadow: 5px 5px 25px #314357;
 }
@@ -75,10 +76,10 @@
 
 .borrowers{
     flex: center;
-    width: 40%;
+    width: 40vw;
     border: 2px solid #456672;
-    border-radius: 10% 10% 10% 10%;
-    padding: 10px;
+    border-radius: 2vw 2vw 2vw 2vw;
+    padding: 1vw;
     box-shadow: 5px 5px 25px #314357;
 }
 
@@ -114,11 +115,11 @@
 
 #footer{
     text-align: center;
-    border-radius: 0 0 10% 10%;
+    border-radius: 0 0 10vw 10vw;
     background-color: #c98c70;
     text-transform: lowercase;
-    height: 50px;
-    border-radius: 0 0 5% 5%;
+    height: 3vw;
+    border-radius: 0 0 5vw 5vw;
     color: #FFFFFF;
 }
 
