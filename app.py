@@ -14,7 +14,7 @@ from Investr import User, Order
 # logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 from database.models import Contract
 from init import create_populate_contracts
-from order_matching import match_orders
+from Order_matching import match_orders
 
 create_db()
 create_tables()
