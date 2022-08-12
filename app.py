@@ -14,6 +14,7 @@ from Investr import User, Order
 # logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 from database.models import Contract
 from init import create_populate_contracts
+from order_matching import match_orders
 
 create_db()
 create_tables()
@@ -100,7 +101,7 @@ def create_order():
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
-    if not interest_rate or not interest_rate.isnumeric() or float(interest_rate) <= 0:
+    if not interest_rate or float(interest_rate) <= 0:
         flash('Interest rate must be greater than 0.')
         return redirect(url_for('order_book'))
 
@@ -110,8 +111,12 @@ def create_order():
     order.amount = int(amount)
     order.interest_rate = float(interest_rate)
 
-    try:
+    match_orders(order)
+
+    if order.amount > 0:
         db.session.add(order)
+
+    try:
         db.session.commit()
     except SQLAlchemy.exc.IntegrityError:
         db.session.rollback()
