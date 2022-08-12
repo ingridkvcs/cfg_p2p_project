@@ -1,74 +1,64 @@
-orders = (['Lending', 1000, 5.15],
-          ['Borrowing', 1000, 4.8],
-          ['Lending', 1000, 4.9],
-          ['Borrowing', 1000, 5.1],
-          ['Lending', 1500, 4.9],
-          ['Borrowing', 2500, 5.1],
-          ['Lending', 1500, 4.9],
-          ['Borrowing', 500, 5.1],
-          ['Lending', 500, 4.9],
-          ['Borrowing', 10000, 6],
-          ['Lending', 20000, 4.1])
-
-current_order = ['Lending', 5000, 5.1]
-
-def lending(borrow_list, current_order, lending_list):
-    Total = current_order[1]
-    for i in range(len(borrow_list)):
-        if current_order[2] == borrow_list[i][2]:
-            if Total > 0:
-                Total -= borrow_list[i][1]
-                if Total >= 0:
-                    borrow_list[i][1] = 0
-                else:
-                    borrow_list[i][1] = abs(Total)
-                    break
-    else:
-        current_order[1] = Total
-        lending_list.append(current_order)
-
-    borrow_list = [value for value in borrow_list if value[1] != 0]
-
-    return [(sorted(lending_list, key=lambda lending_list: lending_list[2])),
-            (sorted(borrow_list, key=lambda borrow_list: borrow_list[2]))]
+from Investr import db
+from database.models import Order, Contract
+from datetime import datetime
 
 
-def borrowing(lending_list, current_order, borrow_list):
-    Total = current_order[1]
-    for i in range(len(lending_list)):
-        if current_order[2] == lending_list[i][2]:
-            if Total > 0:
-                Total -= lending_list[i][1]
-                if Total >= 0:
-                    lending_list[i][1] = 0
-                else:
-                    lending_list[i][1] = abs(Total)
-                    break
-    else:
-        current_order[1] = Total
-        borrow_list.append(current_order)
-    lending_list = [value for value in lending_list if value[1] != 0]
+def lend(borrow_orders, current_order):
+    for borrow_order in borrow_orders:
+        if current_order.interest_rate <= borrow_order.interest_rate:
+            if current_order.amount > 0:
+                contract_amount = min(current_order.amount, borrow_order.amount)
+                current_order.amount -= contract_amount
+                borrow_order.amount -= contract_amount
 
-    return [(sorted(lending_list, key=lambda lending_list: lending_list[2])),
-           (sorted(borrow_list, key=lambda borrow_list: borrow_list[2]))]
+                if borrow_order.amount == 0:
+                    db.session.delete(borrow_order)
+
+                create_contract(borrow_order.user_id, current_order.user_id, contract_amount,
+                                borrow_order.interest_rate)
 
 
-def order_matching(current_order, orders):
-    lend_list = []
-    borrow_list = []
-    for i in range(len(orders)):
-        if orders[i][0] == 'Lending':
-            lend_list.append(orders[i])
-        elif orders[i][0] == 'Borrowing':
-            borrow_list.append(orders[i])
+def borrow(lending_orders, current_order):
+    for lending_order in lending_orders:
+        if current_order.interest_rate >= lending_order.interest_rate:
+            if current_order.amount > 0:
+                contract_amount = min(current_order.amount, lending_order.amount)
+                current_order.amount -= contract_amount
+                lending_order.amount -= contract_amount
 
-    if current_order[0] == 'Lending':
-        return lending(borrow_list, current_order, lend_list)
+                if lending_order.amount == 0:
+                    db.session.delete(lending_order)
 
-    elif current_order[0] == 'Borrowing':
-        return borrowing(lend_list, current_order, borrow_list)
-
-
-print(order_matching(current_order, orders))
+                create_contract(current_order.user_id, lending_order.user_id, contract_amount,
+                                lending_order.interest_rate)
 
 
+def match_orders(current_order):
+    # Get lend orders with the lowest interest rate
+    lend_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'lend') \
+        .order_by(Order.interest_rate.asc()) \
+        .all()
+
+    # Get borrow orders with the highest interest rate
+    borrow_orders = db.session.query(Order) \
+        .filter(Order.order_type == 'borrow') \
+        .order_by(Order.interest_rate.desc()) \
+        .all()
+
+    if current_order.order_type == 'lend':
+        lend(borrow_orders, current_order)
+
+    elif current_order.order_type == 'borrow':
+        borrow(lend_orders, current_order)
+
+
+def create_contract(borrower_id, lender_id, amount, interest_rate):
+    contract = Contract()
+    contract.borrower_id = borrower_id
+    contract.lender_id = lender_id
+    contract.amount = amount
+    contract.interest_rate = interest_rate
+    contract.date_created = datetime.today()
+
+    db.session.add(contract)
