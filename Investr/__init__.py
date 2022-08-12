@@ -3,6 +3,8 @@
 
 import logging
 import csv
+import requests
+import json
 
 from datetime import datetime
 
