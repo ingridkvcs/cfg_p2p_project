@@ -74,10 +74,10 @@ def my_account_page():
 def order_book():
     # Get lend orders with the lowest interest rate
     lend_orders = db.session.query(Order) \
-        .filter(Order.order_type == 'lend') \
-        .order_by(Order.interest_rate.asc()) \
-        .limit(5) \
-        .all()[::-1]
+                      .filter(Order.order_type == 'lend') \
+                      .order_by(Order.interest_rate.asc()) \
+                      .limit(5) \
+                      .all()[::-1]
 
     # Get borrow orders with the highest interest rate
     borrow_orders = db.session.query(Order) \
@@ -113,9 +113,11 @@ def create_order():
 
     match_orders(order)
 
+    # Only add the order to the database if the order wasn't fully matched
     if order.amount > 0:
         db.session.add(order)
 
+    # Save all the changes to the database and rollback all the changes if there's any error.
     try:
         db.session.commit()
     except SQLAlchemy.exc.IntegrityError:
