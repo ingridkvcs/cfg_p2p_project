@@ -3,7 +3,7 @@ from Investr import login_user, logout_user, login_required
 from Investr import generate_password_hash, check_password_hash
 
 from Investr import User, db
-
+from init import db_session
 
 auth = Blueprint('auth', __name__)
 
@@ -56,8 +56,8 @@ def signup_post():
                     password=generate_password_hash(password, method='sha256'))
 
     # save the user to the database
-    db.session.add(new_user)
-    db.session.commit()
+    db_session.add(new_user)
+    db_session.commit()
 
     return redirect(url_for('auth.login'))
 

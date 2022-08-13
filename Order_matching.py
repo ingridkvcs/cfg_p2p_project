@@ -1,9 +1,8 @@
-from Investr import db
-from database.models import Order, Contract
+from Investr import Order, Contract
 from datetime import datetime
 
 
-def lend(borrow_orders, current_order):
+def lend(db_session, borrow_orders, current_order):
     for borrow_order in borrow_orders:
         if current_order.interest_rate <= borrow_order.interest_rate:
             if current_order.amount > 0:
@@ -12,13 +11,13 @@ def lend(borrow_orders, current_order):
                 borrow_order.amount -= contract_amount
 
                 if borrow_order.amount == 0:
-                    db.session.delete(borrow_order)
+                    db_session.delete(borrow_order)
 
-                create_contract(borrow_order.user_id, current_order.user_id, contract_amount,
+                create_contract(db_session, borrow_order.user_id, current_order.user_id, contract_amount,
                                 borrow_order.interest_rate)
 
 
-def borrow(lending_orders, current_order):
+def borrow(db_session, lending_orders, current_order):
     for lending_order in lending_orders:
         if current_order.interest_rate >= lending_order.interest_rate:
             if current_order.amount > 0:
@@ -27,33 +26,33 @@ def borrow(lending_orders, current_order):
                 lending_order.amount -= contract_amount
 
                 if lending_order.amount == 0:
-                    db.session.delete(lending_order)
+                    db_session.delete(lending_order)
 
-                create_contract(current_order.user_id, lending_order.user_id, contract_amount,
+                create_contract(db_session, current_order.user_id, lending_order.user_id, contract_amount,
                                 lending_order.interest_rate)
 
 
-def match_orders(current_order):
+def match_orders(db_session, current_order):
     # Get lend orders with the lowest interest rate
-    lend_orders = db.session.query(Order) \
+    lend_orders = db_session.query(Order) \
         .filter(Order.order_type == 'lend') \
         .order_by(Order.interest_rate.asc()) \
         .all()
 
     # Get borrow orders with the highest interest rate
-    borrow_orders = db.session.query(Order) \
+    borrow_orders = db_session.query(Order) \
         .filter(Order.order_type == 'borrow') \
         .order_by(Order.interest_rate.desc()) \
         .all()
 
     if current_order.order_type == 'lend':
-        lend(borrow_orders, current_order)
+        lend(db_session, borrow_orders, current_order)
 
     elif current_order.order_type == 'borrow':
-        borrow(lend_orders, current_order)
+        borrow(db_session, lend_orders, current_order)
 
 
-def create_contract(borrower_id, lender_id, amount, interest_rate):
+def create_contract(db_session, borrower_id, lender_id, amount, interest_rate):
     contract = Contract()
     contract.borrower_id = borrower_id
     contract.lender_id = lender_id
@@ -61,4 +60,4 @@ def create_contract(borrower_id, lender_id, amount, interest_rate):
     contract.interest_rate = interest_rate
     contract.date_created = datetime.today()
 
-    db.session.add(contract)
+    db_session.add(contract)
