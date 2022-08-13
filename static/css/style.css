@@ -73,8 +73,10 @@
 .title {
   background-color: #FFFFFF;
   width: 97.5vw;
+  max-width: 100%;
   height: 20vw;
   background-repeat: no-repeat;
+  object-fit: cover;
   background-size: cover;
   border: 3px white;
   color: #e3b587;
@@ -88,6 +90,16 @@
 
 #content{
     margin: 0.3vw;
+}
+
+.container-main {
+    display: flex-wrap;
+    flex-direction: row;
+    gap: 5%;
+    justify-content: center;
+    color:#314357;
+    padding:5%;
+    text-align: center;
 }
 
 .container {
