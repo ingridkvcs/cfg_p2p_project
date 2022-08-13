@@ -6,7 +6,9 @@ from Investr import Order
 from Order_matching import match_orders
 from database.models import Contract
 
-# For some reason, in order to run the test, you need to right-click on this line and run in PyCharm.
+
+# Because the test context loads the app context from init.py and that file also loads
+# the csv mocked data sets, you need to right-click on this line and run in PyCharm.
 
 
 class OrderMatchDbTesting(TestCase):
@@ -37,16 +39,11 @@ class OrderMatchDbTesting(TestCase):
         self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "lend").all()), 4)
         self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "borrow").all()), 4)
 
+    """
+    Tests for LEND order type
+    """
     def test_givenALendOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(self):
         test_order = Order(id=100, user_id=1, order_type="lend", amount=1000, interest_rate=5)
-
-        match_orders(self.session, test_order)
-
-        self.assertEqual(test_order.amount, 1000)
-        self.assertEqual(self.session.query(Contract).count(), 0)
-
-    def test_givenABorrowOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(self):
-        test_order = Order(id=100, user_id=1, order_type="borrow", amount=1000, interest_rate=5)
 
         match_orders(self.session, test_order)
 
@@ -81,6 +78,17 @@ class OrderMatchDbTesting(TestCase):
         self.assertEqual(contract.lender_id, 1)
         self.assertEqual(contract.amount, 500)
         self.assertEqual(contract.interest_rate, 4.9)
+
+    """
+    Tests for BORROW order type
+    """
+    def test_givenABorrowOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(self):
+        test_order = Order(id=100, user_id=1, order_type="borrow", amount=1000, interest_rate=5)
+
+        match_orders(self.session, test_order)
+
+        self.assertEqual(test_order.amount, 1000)
+        self.assertEqual(self.session.query(Contract).count(), 0)
 
     def test_givenABorrowOrderThatMatchesFully_whenCallingMatchOrder_thenTheNewOrderHasAmount0(self):
         test_order = Order(id=100, user_id=1, order_type="borrow", amount=500, interest_rate=6)
