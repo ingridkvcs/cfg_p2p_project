@@ -1,4 +1,3 @@
-from copy import deepcopy
 from unittest import TestCase, mock
 
 from mock_alchemy.mocking import UnifiedAlchemyMagicMock
@@ -6,6 +5,8 @@ from mock_alchemy.mocking import UnifiedAlchemyMagicMock
 from Investr import Order
 from Order_matching import match_orders
 from database.models import Contract
+
+# For some reason, in order to run the test, you need to right-click on this line and run in PyCharm.
 
 
 class OrderMatchDbTesting(TestCase):
@@ -36,25 +37,50 @@ class OrderMatchDbTesting(TestCase):
         self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "lend").all()), 4)
         self.assertEqual(len(self.session.query(Order).filter(Order.order_type == "borrow").all()), 4)
 
-    def test_givenALendOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(
-            self):
+    def test_givenALendOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(self):
         test_order = Order(id=100, user_id=1, order_type="lend", amount=1000, interest_rate=5)
-        expected_order = deepcopy(test_order)
 
         match_orders(self.session, test_order)
 
-        self.assertEqual(test_order.amount, expected_order.amount)
+        self.assertEqual(test_order.amount, 1000)
         self.assertEqual(self.session.query(Contract).count(), 0)
 
-    def test_givenABorrowOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(
-            self):
+    def test_givenABorrowOrderThatMatchesNothing_whenCallingMatchOrder_thenTheNewOrderIsUnmodifiedAndNoContractsAreCreated(self):
         test_order = Order(id=100, user_id=1, order_type="borrow", amount=1000, interest_rate=5)
-        expected_order = deepcopy(test_order)
 
         match_orders(self.session, test_order)
 
-        self.assertEqual(test_order.amount, expected_order.amount)
+        self.assertEqual(test_order.amount, 1000)
         self.assertEqual(self.session.query(Contract).count(), 0)
+
+    def test_givenALendOrderThatMatchesFully_whenCallingMatchOrder_thenTheNewOrderHasAmount0(self):
+        test_order = Order(id=100, user_id=1, order_type="lend", amount=500, interest_rate=4)
+
+        match_orders(self.session, test_order)
+
+        self.assertEqual(test_order.amount, 0)
+
+    def test_givenALendOrderThatMatchesFully_whenCallingMatchOrder_thenTheExistingOrderIsUpdated(self):
+        test_order = Order(id=100, user_id=1, order_type="lend", amount=500, interest_rate=4)
+
+        match_orders(self.session, test_order)
+
+        borrow_orders = self.session.query(Order).filter(Order.order_type == "borrow").all()
+        self.assertEqual(borrow_orders[0].id, 5)
+        self.assertEqual(borrow_orders[0].amount, 500)
+
+    def test_givenALendOrderThatMatchesFully_whenCallingMatchOrder_thenTheCorrectContractIsCreated(self):
+        test_order = Order(id=100, user_id=1, order_type="lend", amount=500, interest_rate=4)
+
+        match_orders(self.session, test_order)
+
+        self.assertEqual(self.session.query(Contract).count(), 1)
+        contract = self.session.query(Contract).one()
+        self.assertIsNotNone(contract)
+        self.assertEqual(contract.borrower_id, 15)
+        self.assertEqual(contract.lender_id, 1)
+        self.assertEqual(contract.amount, 500)
+        self.assertEqual(contract.interest_rate, 4.9)
 
     def test_givenABorrowOrderThatMatchesFully_whenCallingMatchOrder_thenTheNewOrderHasAmount0(self):
         test_order = Order(id=100, user_id=1, order_type="borrow", amount=500, interest_rate=6)
@@ -62,25 +88,22 @@ class OrderMatchDbTesting(TestCase):
         match_orders(self.session, test_order)
 
         self.assertEqual(test_order.amount, 0)
-        self.assertEqual(self.session.query(Contract).count(), 1)
 
     def test_givenABorrowOrderThatMatchesFully_whenCallingMatchOrder_thenTheExistingOrderIsUpdated(self):
         test_order = Order(id=100, user_id=1, order_type="borrow", amount=500, interest_rate=6)
 
         match_orders(self.session, test_order)
 
-        borrow_orders = self.session.query(Order).filter(Order.order_type == "lend").all()
-        self.assertEqual(borrow_orders[0].id, 1)
-        self.assertEqual(borrow_orders[0].amount, 3500)
+        lend_orders = self.session.query(Order).filter(Order.order_type == "lend").all()
+        self.assertEqual(lend_orders[0].id, 1)
+        self.assertEqual(lend_orders[0].amount, 3500)
 
     def test_givenABorrowOrderThatMatchesFully_whenCallingMatchOrder_thenTheCorrectContractIsCreated(self):
         test_order = Order(id=100, user_id=1, order_type="borrow", amount=500, interest_rate=6)
 
         match_orders(self.session, test_order)
 
-        self.assertEqual(test_order.amount, 0)
         self.assertEqual(self.session.query(Contract).count(), 1)
-
         contract = self.session.query(Contract).one()
         self.assertIsNotNone(contract)
         self.assertEqual(contract.borrower_id, 1)
