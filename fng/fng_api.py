@@ -57,5 +57,4 @@ fig.update_traces(
     }
 )
 
-fig.write_html("graph.html")
-# fig.show()
+fig.write_html("templates/graph.html")
