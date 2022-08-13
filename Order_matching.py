@@ -1,5 +1,4 @@
-from Investr import Order, Contract
-from datetime import datetime
+from Lendr import Order, Contract, datetime
 
 
 def lend(db_session, borrow_orders, current_order):

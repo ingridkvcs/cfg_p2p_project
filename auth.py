@@ -1,11 +1,10 @@
-from Investr import Blueprint, render_template, url_for, redirect, request, flash
-from Investr import login_user, logout_user, login_required
-from Investr import generate_password_hash, check_password_hash
-
-from Investr import User, db
-from init import db_session
+from Lendr import Blueprint, render_template, url_for, redirect, request, flash
+from Lendr import login_user, logout_user, login_required
+from Lendr import generate_password_hash, check_password_hash
+from Lendr import User, db_session
 
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/login')
 def login():
@@ -36,6 +35,7 @@ def signup():
     return render_template('signup.html')
 
 
+# noinspection PyArgumentList
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     first_name = request.form.get('first_name')

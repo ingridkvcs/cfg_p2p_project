@@ -1,5 +1,5 @@
-from Investr import requests, json
-from Investr import go
+from Lendr import requests, json
+from Lendr import go
 
 url = "https://fear-and-greed-index.p.rapidapi.com/v1/fgi"
 

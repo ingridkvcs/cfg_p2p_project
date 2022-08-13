@@ -1,9 +1,8 @@
 # Creates the Flask Application and configures and connects to the server instance using SQLAlchemy
 
-from Investr import Flask, SQLAlchemy, User, Order, Base, sessionmaker, scoped_session
-from Investr import exc, db_name, port, host, password, username
-from Investr import database_exists, create_database, csv
-from database.models import Contract
+from Lendr import Flask, SQLAlchemy, User, Order, Base, sessionmaker, scoped_session
+from Lendr import exc, db_name, port, host, password, username
+from Lendr import database_exists, create_database, csv, Contract
 
 server = f'mysql+mysqlconnector://{username}:{password}@{host}:{port}/{db_name}?auth_plugin=mysql_native_password'
 
@@ -25,14 +24,14 @@ def create_db():
 # Creates the tables within the database.
 def create_tables():
     print("Creating tables...")
-    with engine.connect() as connection:
-        # connection.execute(f"CREATE DATABASE IF NOT EXISTS {db_name};")
+    with engine.connect():
         engine.execute(f"USE {db_name};")
         Base.query = db_session.query_property()
         Base.metadata.create_all(engine)
 
 
 # Populates User table with mock data
+# noinspection PyArgumentList
 def create_populate_users():
     try:
         with open("files/mocked_data_user.csv", "r") as csvfile:
@@ -74,7 +73,7 @@ def create_populate_contracts():
                 db_session.commit()
         print("Populating with Contract data...")
     except exc.SQLAlchemyError as ex:
-        print(ex)
+        pass
 
 
 # Initialises the app

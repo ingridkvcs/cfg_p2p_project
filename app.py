@@ -1,20 +1,18 @@
-# Contains all the endpoints for this application
-from sqlalchemy import or_, and_, delete
-
-from Investr import LoginManager, login_required, current_user
-from Investr import User, Order
-from Investr import fg_oya_score, fg_oya_rating, fg_oma_rating, fg_oma_score, fg_owa_score, fg_owa_rating, fg_pc_rating, fg_pc_score
-from Investr import create_db, create_tables, create_populate_users, create_populate_orders, create_app
-from Investr import redirect, SQLAlchemy
-from Investr import render_template, request, url_for, flash
-from Order_matching import match_orders
+from Lendr import LoginManager, login_required, current_user
+from Lendr import fg_oya_score, fg_oya_rating, fg_oma_rating
+from Lendr import fg_oma_score, fg_owa_score, fg_owa_rating, fg_pc_rating, \
+    fg_pc_score
+from Lendr import create_db, create_tables, create_populate_users, create_populate_orders, \
+    create_app, match_orders
+from Lendr import redirect, SQLAlchemy, or_, and_, delete
+from Lendr import render_template, request, url_for, flash
+from Lendr import User, Order, Contract, create_populate_contracts, db_session
+from Lendr import logging
 
 # Temporary while debugging
-# logging.basicConfig()
-# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
-from database.models import Contract
-from init import create_populate_contracts, db_session
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 create_db()
 create_tables()
@@ -44,7 +42,9 @@ def main_page():
 
 @app.route('/fear-and-greed')
 def fear_greed():
-    return render_template("fear_greed.html", prevclose_score=fg_pc_score, prevclose_rating=fg_pc_rating, oneweek_score=fg_owa_score, oneweek_rating=fg_owa_rating, onemonth_score=fg_oma_score, onemonth_rating=fg_oma_rating, oneyear_score=fg_oya_score, oneyear_rating=fg_oya_rating)
+    return render_template("fear_greed.html", prevclose_score=fg_pc_score, prevclose_rating=fg_pc_rating,
+                           oneweek_score=fg_owa_score, oneweek_rating=fg_owa_rating, onemonth_score=fg_oma_score,
+                           onemonth_rating=fg_oma_rating, oneyear_score=fg_oya_score, oneyear_rating=fg_oya_rating)
 
 
 @app.route('/my-account')
