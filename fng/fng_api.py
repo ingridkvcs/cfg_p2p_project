@@ -58,3 +58,24 @@ fig.update_traces(
 )
 
 fig.write_html("templates/graph.html")
+
+fg_pc_score = round(fg_data.get("previousClose", {}).get("value", 0), 2)
+fg_pc_rating = fg_data.get("previousClose", {}).get("valueText", "Error")
+
+# One Week
+
+
+fg_owa_score = round(fg_data.get("oneWeekAgo", {}).get("value", 0), 2)
+fg_owa_rating = fg_data.get("oneWeekAgo", {}).get("valueText", "Error")
+
+# One Month
+
+
+fg_oma_score = round(fg_data.get("oneMonthAgo", {}).get("value", 0), 2)
+fg_oma_rating = fg_data.get("oneMonthAgo", {}).get("valueText", "Error")
+
+# One Year
+
+
+fg_oya_score = round(fg_data.get("oneYearAgo", {}).get("value", 0), 2)
+fg_oya_rating = fg_data.get("oneYearAgo", {}).get("valueText", "Error")

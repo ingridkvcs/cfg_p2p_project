@@ -5,9 +5,92 @@
 {% block title %}CFG{% endblock %}
 {% block content %}
 
-<div>Fear and Greed Index</div>
 <div>
 {% include 'graph.html' %}
+
+</div>
+
+<div class="row">
+    <div id="fng-table" class="col-sm-5">
+        <table class="table">
+
+            <thead>
+            <tr class="table__header">
+                <th>Previous Close</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{prevclose_rating}}</td>
+                <td>{{prevclose_score}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>
+        <div id="fng-table" class="col-sm-5">
+        <table class="table">
+
+            <thead>
+            <tr class="table__header">
+                <th>One Week Ago</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{oneweek_rating}}</td>
+                <td>{{oneweek_score}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    <p>
+        <div id="fng-table" class="col-sm-5">
+        <table class="table">
+
+            <thead>
+            <tr class="table__header">
+                <th>One Month Ago</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{onemonth_rating}}</td>
+                <td>{{onemonth_score}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    <p>
+        <div id="fng-table" class="col-sm-5">
+        <table class="table">
+
+            <thead>
+            <tr class="table__header">
+                <th>One Year Ago</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{oneyear_rating}}</td>
+                <td>{{oneyear_score}}</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+</div>
+<div><h1>Fear and Greed Index Chart</h1>
+    <p>
+        Euphoria and panic are the two main emotional states of the market. Both are mainly responsible for causing volatility in the world’s stock markets. The Fear And Greed Index is produced by CNN Money, the economics division of American news network CNN.
+    <p>
+        The score can vary between 0 and 100. The closer to 100, the more <b>greedy</b> the behavior of investors, according to the interpretation of the creators of the index. Conversely, the closer to 0, the more <b>fear</b> in the market. A score of 10 or less is considered <b>extreme fear</b>.
+    <p>
+        For further information, visit <a href="https://fear-greed-index.com/">fear-greed-index.com</a>.
+    </p>
 
 </div>
 
