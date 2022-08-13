@@ -117,7 +117,7 @@ def create_order():
     if order.amount > 0:
         db.session.add(order)
 
-    #save all the changes to the database and rollback all the changes if there's any error.
+    # Save all the changes to the database and rollback all the changes if there's any error.
     try:
         db.session.commit()
     except SQLAlchemy.exc.IntegrityError:
