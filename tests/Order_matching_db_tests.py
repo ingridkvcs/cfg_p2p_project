@@ -1,3 +1,5 @@
+# This test is built using this guide: https://mock-alchemy.readthedocs.io/en/latest/user_guide/index.html
+
 from unittest import TestCase, mock
 
 from mock_alchemy.mocking import UnifiedAlchemyMagicMock
@@ -6,9 +8,7 @@ from Investr import Order
 from Order_matching import match_orders
 from database.models import Contract
 
-
-# Because the test context loads the app context from init.py and that file also loads
-# the csv mocked data sets, you need to right-click on this line and run in PyCharm.
+# For some reason, in order to run the test, you need to right-click on this line and run in PyCharm.
 
 
 class OrderMatchDbTesting(TestCase):
