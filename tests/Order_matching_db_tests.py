@@ -1,12 +1,8 @@
 # This test is built using this guide: https://mock-alchemy.readthedocs.io/en/latest/user_guide/index.html
 
-from unittest import TestCase, mock
-
-from mock_alchemy.mocking import UnifiedAlchemyMagicMock
-
-from Investr import Order
-from Order_matching import match_orders
-from database.models import Contract
+from Lendr import TestCase, mock
+from Lendr import UnifiedAlchemyMagicMock
+from Lendr import Order, Contract, match_orders
 
 # For some reason, in order to run the test, you need to right-click on this line and run in PyCharm.
 

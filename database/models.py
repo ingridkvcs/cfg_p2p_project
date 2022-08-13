@@ -1,13 +1,13 @@
 # Defines the model for the database tables
-from Investr import Column, ForeignKey, Integer, String, Float, Date
-from Investr import UserMixin
-from Investr import datetime
-from Investr import declarative_base
+from Lendr import Column, ForeignKey, Integer, String, Float, Date
+from Lendr import UserMixin, declarative_base
+from Lendr import datetime
 
 print("Print base")
 Base = declarative_base()
 
 
+# noinspection SpellCheckingInspection
 class User(UserMixin, Base):
     __tablename__ = "User"
     id = Column(Integer, primary_key=True, unique=True)
@@ -41,7 +41,6 @@ class Contract(Base):
     amount = Column(Integer, nullable=False)
     interest_rate = Column(Float, nullable=False)
     date_created = Column(Date(), default=datetime.utcnow)
-
 
     def __repr__(self):
         return '<Contract %r>' % self.id
