@@ -7,12 +7,12 @@ from Lendr import create_db, create_tables, create_populate_users, create_popula
 from Lendr import redirect, SQLAlchemy, or_, and_, delete
 from Lendr import render_template, request, url_for, flash
 from Lendr import User, Order, Contract, create_populate_contracts, db_session
-from Lendr import logging
+# from Lendr import logging
 
 # Temporary while debugging
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+# logging.basicConfig()
+# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+# logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
 create_db()
 create_tables()
