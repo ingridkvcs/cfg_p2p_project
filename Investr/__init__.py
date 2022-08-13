@@ -5,7 +5,6 @@ import logging
 import csv
 import requests
 import json
-import kaleido
 import plotly.graph_objects as go
 
 from datetime import datetime
