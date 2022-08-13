@@ -19,7 +19,7 @@ id,user_id,order_type,amount,interest_rate
 18,21,borrow,8000,2.5
 19,49,lend,9000,5.8
 20,50,borrow,10000,3.7
-21,1,borrow,2000,5.7
-22,1,lend,2000,6.4
-23,1,borrow,3500,5.3
-24,1,lend,3000,5.9
+21,1,borrow,2000,2.3
+22,1,lend,2000,8.2
+23,1,borrow,3500,1.4
+24,1,lend,3000,9.1

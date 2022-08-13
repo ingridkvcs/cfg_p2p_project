@@ -1,20 +1,20 @@
 # Contains all the endpoints for this application
 from sqlalchemy import or_, and_, delete
 
-from Investr import logging
-from Investr import render_template, request, url_for, flash
 from Investr import LoginManager, login_required, current_user
-from Investr import redirect, SQLAlchemy
-from Investr import create_db, create_tables, create_populate_users, create_populate_orders, create_app, db
 from Investr import User, Order
 from Investr import fg_oya_score, fg_oya_rating, fg_oma_rating, fg_oma_score, fg_owa_score, fg_owa_rating, fg_pc_rating, fg_pc_score
+from Investr import create_db, create_tables, create_populate_users, create_populate_orders, create_app
+from Investr import redirect, SQLAlchemy
+from Investr import render_template, request, url_for, flash
+from Order_matching import match_orders
 
 # Temporary while debugging
 # logging.basicConfig()
 # logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 # logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 from database.models import Contract
-from init import create_populate_contracts
+from init import create_populate_contracts, db_session
 
 create_db()
 create_tables()
@@ -38,7 +38,7 @@ def load_user(user_id):
 
 @app.route('/')
 def main_page():
-    users = db.session.query(User).count()
+    users = db_session.query(User).count()
     return render_template("index.html", user_count=users)
 
 
@@ -50,7 +50,7 @@ def fear_greed():
 @app.route('/my-account')
 @login_required
 def my_account_page():
-    contracts = db.session.query(Contract) \
+    contracts = db_session.query(Contract) \
         .filter(or_(Contract.borrower_id == current_user.id, Contract.lender_id == current_user.id)) \
         .order_by(Contract.date_created.desc()) \
         .all()
@@ -63,7 +63,7 @@ def my_account_page():
         else:
             raise Exception("The specified user is not part of this contract.")
 
-    orders = db.session.query(Order) \
+    orders = db_session.query(Order) \
         .filter(Order.user_id == current_user.id) \
         .all()
 
@@ -78,14 +78,14 @@ def my_account_page():
 @login_required
 def order_book():
     # Get lend orders with the lowest interest rate
-    lend_orders = db.session.query(Order) \
+    lend_orders = db_session.query(Order) \
                       .filter(Order.order_type == 'lend') \
                       .order_by(Order.interest_rate.asc()) \
                       .limit(5) \
                       .all()[::-1]
 
     # Get borrow orders with the highest interest rate
-    borrow_orders = db.session.query(Order) \
+    borrow_orders = db_session.query(Order) \
         .filter(Order.order_type == 'borrow') \
         .order_by(Order.interest_rate.desc()) \
         .limit(5) \
@@ -97,7 +97,7 @@ def order_book():
 @app.route('/create-order', methods=['POST'])
 @login_required
 def create_order():
-    user_id = db.session.query(current_user.id)
+    user_id = db_session.query(current_user.id)
     order_type = request.form.get('order_type')
     amount = request.form.get('amount')
     interest_rate = request.form.get('interest_rate')
@@ -106,7 +106,7 @@ def create_order():
         flash('Amount must be greater than 0.')
         return redirect(url_for('order_book'))
 
-    if not interest_rate or not interest_rate.isnumeric() or float(interest_rate) <= 0:
+    if not interest_rate or float(interest_rate) <= 0:
         flash('Interest rate must be greater than 0.')
         return redirect(url_for('order_book'))
 
@@ -116,11 +116,17 @@ def create_order():
     order.amount = int(amount)
     order.interest_rate = float(interest_rate)
 
+    match_orders(db_session, order)
+
+    # Only add the order to the database if the order wasn't fully matched
+    if order.amount > 0:
+        db_session.add(order)
+
+    # Save all the changes to the database and rollback all the changes if there's any error.
     try:
-        db.session.add(order)
-        db.session.commit()
+        db_session.commit()
     except SQLAlchemy.exc.IntegrityError:
-        db.session.rollback()
+        db_session.rollback()
 
     return redirect(url_for('order_book'))
 
@@ -131,8 +137,8 @@ def delete_order():
     id = request.form.get('id')
 
     delete_command = delete(Order).where(and_(Order.id == id, Order.user_id == current_user.id))
-    result = db.session.execute(delete_command)
-    db.session.commit()
+    result = db_session.execute(delete_command)
+    db_session.commit()
 
     if result.rowcount == 0:
         flash("Couldn't delete order")
