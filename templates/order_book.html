@@ -4,10 +4,11 @@
 {% endblock %}
 {% block title %}Sign up{% endblock %}
 {% block content %}
-<div class="title">Orders</div>
-<div class="container">
-    <div class="container2">
-        <h2>Lend Orders</h2>
+<div class="row">
+    <h1>Orders</h1>
+    <div class="column is-4 is-offset-1">
+        <h2>Order Book</h2>
+        <h3>Lend Orders</h3>
         <table class="table">
             <thead class="table-dark">
             <tr>
@@ -24,9 +25,8 @@
             {% endfor %}
             </tbody>
         </table>
-            </div>
-    <div class="container2">
-        <h2>Borrow Orders</h2>
+
+        <h3>Borrow Orders</h3>
         <table class="table">
             <thead class="table-dark">
             <tr>
@@ -45,8 +45,7 @@
         </table>
 
     </div>
-    </div>
-    <div class="container2">
+    <div class="column is-4 is-offset-2">
         <h2>Place Order</h2>
         <div class="box">
             <form method="POST" action="/create-order">
@@ -77,5 +76,5 @@
             </form>
         </div>
     </div>
-
+</div>
 {% endblock %}
