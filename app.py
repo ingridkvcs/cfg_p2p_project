@@ -40,6 +40,12 @@ def main_page():
     return render_template("index.html", user_count=users)
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('img/favicon.ico')
+
+
+
 @app.route('/fear-and-greed')
 def fear_greed():
     return render_template("fear_greed.html", prevclose_score=fg_pc_score, prevclose_rating=fg_pc_rating,
