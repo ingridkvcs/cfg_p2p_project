@@ -4,9 +4,9 @@
 {% endblock %}
 {% block title %}Sign up{% endblock %}
 {% block content %}
-<div class="row">
-    <div class="column is-4 is-offset-1">
-        <h1>Order Book</h1>
+<div class="title">Orders</div>
+<div class="container">
+    <div class="container2">
         <h2>Lend Orders</h2>
         <table class="table">
             <thead class="table-dark">
@@ -24,7 +24,8 @@
             {% endfor %}
             </tbody>
         </table>
-
+            </div>
+    <div class="container2">
         <h2>Borrow Orders</h2>
         <table class="table">
             <thead class="table-dark">
@@ -44,7 +45,8 @@
         </table>
 
     </div>
-    <div class="column is-4 is-offset-2">
+    </div>
+    <div class="container2">
         <h2>Place Order</h2>
         <div class="box">
             <form method="POST" action="/create-order">
@@ -75,5 +77,5 @@
             </form>
         </div>
     </div>
-</div>
+
 {% endblock %}
