@@ -4,16 +4,12 @@
 {% endblock %}
 {% block title %}CFG{% endblock %}
 {% block content %}
-
-<div>
+<div class="title">Fear and Greed Index</div>
+<div class="container">
 {% include 'graph.html' %}
 
-</div>
-
-<div class="row">
-    <div id="fng-table" class="col-sm-5">
+<div class="container2">
         <table class="table">
-
             <thead>
             <tr class="table__header">
                 <th>Previous Close</th>
@@ -21,17 +17,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr class="table__row">
                 <td>{{prevclose_rating}}</td>
-                <td>{{prevclose_score}}</td>
+                <td class="table__cell2">{{prevclose_score}}</td>
             </tr>
             </tbody>
         </table>
-    </div>
-    <p>
-        <div id="fng-table" class="col-sm-5">
         <table class="table">
-
             <thead>
             <tr class="table__header">
                 <th>One Week Ago</th>
@@ -39,17 +31,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr class="table__row">
                 <td>{{oneweek_rating}}</td>
-                <td>{{oneweek_score}}</td>
+                <td class="table__cell2">{{oneweek_score}}</td>
             </tr>
             </tbody>
         </table>
-        </div>
-    <p>
-        <div id="fng-table" class="col-sm-5">
         <table class="table">
-
             <thead>
             <tr class="table__header">
                 <th>One Month Ago</th>
@@ -57,15 +45,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr class="table__row">
                 <td>{{onemonth_rating}}</td>
-                <td>{{onemonth_score}}</td>
+                <td class="table__cell2">{{onemonth_score}}</td>
             </tr>
             </tbody>
         </table>
-        </div>
-    <p>
-        <div id="fng-table" class="col-sm-5">
         <table class="table">
 
             <thead>
@@ -77,25 +62,24 @@
             <tbody>
             <tr>
                 <td>{{oneyear_rating}}</td>
-                <td>{{oneyear_score}}</td>
+                <td class="table__cell2">{{oneyear_score}}</td>
             </tr>
             </tbody>
         </table>
-        </div>
+    </div>
 </div>
-<div><h1>Fear and Greed Index Chart</h1>
+<div><h2>What is the Fear and Greed Index?</h2>
     <p>
         Euphoria and panic are the two main emotional states of the market. Both are mainly responsible for causing volatility in the world’s stock markets. The Fear And Greed Index is produced by CNN Money, the economics division of American news network CNN.
     <p>
         The score can vary between 0 and 100. The closer to 100, the more <b>greedy</b> the behavior of investors, according to the interpretation of the creators of the index. Conversely, the closer to 0, the more <b>fear</b> in the market. A score of 10 or less is considered <b>extreme fear</b>.
     <p>
         We believe in supporting the sustainability and self-management of local communities.  We want to empower people to invest in each other, and avoid using the banks whose interest rates and decision-making processes are driven by the fear and greed dynamics of the stock market.
-    <p>
-        Choose Lendr.
-    </p>
-    <p>
+    <h2>Choose Lendr.</h2>
+    <br>
+    <br>
         <a href="https://edition.cnn.com/markets/fear-and-greed#fng-faq">Learn more about the index...</a>
-    </p>
+
 
 </div>
 

@@ -9,6 +9,28 @@
     border-radius: 0 0 3vw 3vw;
 }
 
+h2{
+    margin: 0.5vw;
+    padding: 1vw;
+    color: #314357;
+    background-color: #e3b587;
+    border-radius: 1vw 1vw 1vw 1vw;
+}
+
+p{
+    padding: 1vw;
+    }
+
+a{
+    font-decoration: solid;
+    color: #c98c70;
+}
+
+a:hover{
+    font-decoration: solid;
+    color: #314357;
+}
+
 .navbar-item{
     margin: 0.5vw;
     background-color: #c98c70;
@@ -82,8 +104,10 @@
   color: #e3b587;
   font-family:fantasy;
   text-align: left;
+  padding: 2vw;
+  font-size: 4.5vw;
   text-transform: uppercase;
-  -webkit-text-stroke: 0.5px #314357;
+  -webkit-text-stroke: 1.5px #314357;
   background-image: url(https://live.staticflickr.com/65535/52272296739_4f722e4798_h.jpg);
   background-position-y: 30%;
 }
@@ -112,6 +136,16 @@
     text-align: center;
 }
 
+.container2 {
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    justify-content: center;
+    color:#314357;
+    padding:5%;
+    text-align: center;
+}
+
 .lenders{
     flex: center;
     width: 40vw;
@@ -131,8 +165,6 @@
     padding: 1vw;
     box-shadow: 5px 5px 25px #314357;
 }
-
-
 
 .count{
     color: #314357;
@@ -189,5 +221,8 @@ text-align: left;
 padding: 8px;
 }
 
+.table__cell2{
+text-align= right;}
+}
 
 
