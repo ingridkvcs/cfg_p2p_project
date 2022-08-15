@@ -7,6 +7,7 @@ from Lendr import create_db, create_tables, create_populate_users, create_popula
 from Lendr import redirect, SQLAlchemy, or_, and_, delete
 from Lendr import render_template, request, url_for, flash
 from Lendr import User, Order, Contract, create_populate_contracts, db_session
+
 # from Lendr import logging
 
 # Temporary while debugging
@@ -45,7 +46,6 @@ def favicon():
 def main_page():
     users = db_session.query(User).count()
     return render_template("index.html", user_count=users)
-
 
 
 @app.route('/fear-and-greed')
