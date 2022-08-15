@@ -14,15 +14,17 @@ from Lendr import User, Order, Contract, create_populate_contracts, db_session
 # logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 # logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
-create_db()
-create_tables()
+if __name__ == '__main__':
+    create_db()
+    create_tables()
 
 app = create_app()
 app.app_context().push()
 
-create_populate_users()
-create_populate_orders()
-create_populate_contracts()
+if __name__ == '__main__':
+    create_populate_users()
+    create_populate_orders()
+    create_populate_contracts()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'

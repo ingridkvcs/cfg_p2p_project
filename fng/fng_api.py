@@ -57,7 +57,8 @@ fig.update_traces(
     }
 )
 
-fig.write_html("templates/graph.html")
+if __name__ == '__main__':
+    fig.write_html("templates/graph.html")
 
 fg_pc_score = round(fg_data.get("previousClose", {}).get("value", 0), 2)
 fg_pc_rating = fg_data.get("previousClose", {}).get("valueText", "Error")
