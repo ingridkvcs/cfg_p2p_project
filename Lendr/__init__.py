@@ -15,6 +15,7 @@ from flask import Flask, Blueprint, render_template, url_for, redirect, request,
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_testing import TestCase as FlaskTest
 
 from sqlalchemy import exc, Column, Table, ForeignKey, Integer, String, Float, Date, or_, and_, delete
 from sqlalchemy.orm import declarative_base, sessionmaker, scoped_session, backref, relationship
@@ -33,5 +34,7 @@ from app import app
 
 # Testing
 
+import pytest
 from mock_alchemy.mocking import UnifiedAlchemyMagicMock
 from unittest import TestCase, mock
+from secrets import compare_digest

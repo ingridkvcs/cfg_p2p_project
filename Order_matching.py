@@ -60,4 +60,5 @@ def create_contract(db_session, borrower_id, lender_id, amount, interest_rate):
     contract.date_created = datetime.today()
 
     db_session.add(contract)
-    flash('Congratulations! Your order has been successfully matched. Your contract can be viewed on your account page.')
+    if __name__ == '__main__':
+        flash('Congratulations! Your order has been successfully matched. Your contract can be viewed on your account page.')
