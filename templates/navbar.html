@@ -1,20 +1,38 @@
-<!--<nav>-->
-<!--    <div class="links">-->
-<!--          <a href="index"><font size="+3"><b>Home</b></font></a>-->
-<!--        </div>-->
-<!--</nav>-->
-<div class="navbar-end">
-    {% if not current_user.is_authenticated %}
-    <a href="{{ url_for('auth.login') }}" class="navbar-item">
-        Login
-    </a>
-    <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-        Sign Up
-    </a>
-    {% endif %}
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-        Logout
-    </a>
-    {% endif %}
-</div>
+<nav class="navbar sticky-top navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main_page')}}">LendR</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                <a class="nav-link navbar-item" href="{{ url_for('order_book_page') }}">
+                    Orders
+                </a>
+                <a class="nav-link navbar-item" href="{{ url_for('fear_and_greed_index_page') }}">
+                    Fear and Greed Index
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="navbar-end">
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.login') }}" class="nav-link navbar-item">
+            Login
+        </a>
+        <a href="{{ url_for('auth.signup') }}" class="nav-link navbar-item">
+            Sign Up
+        </a>
+        {% else %}
+        <a href="{{ url_for('my_account_page') }}" class="nav-link navbar-item">
+            {{ current_user.first_name }} {{ current_user.last_name }}
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="nav-link navbar-item">
+            Logout
+        </a>
+        {% endif %}
+    </div>
+</nav>

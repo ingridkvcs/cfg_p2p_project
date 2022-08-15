@@ -34,20 +34,20 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('img/favicon.ico')
+
+
 @app.route('/')
 def main_page():
     users = db_session.query(User).count()
     return render_template("index.html", user_count=users)
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return app.send_static_file('img/favicon.ico')
-
-
 
 @app.route('/fear-and-greed')
-def fear_greed():
+def fear_and_greed_index_page():
     return render_template("fear_greed.html", prevclose_score=fg_pc_score, prevclose_rating=fg_pc_rating,
                            oneweek_score=fg_owa_score, oneweek_rating=fg_owa_rating, onemonth_score=fg_oma_score,
                            onemonth_rating=fg_oma_rating, oneyear_score=fg_oya_score, oneyear_rating=fg_oya_rating)
@@ -82,7 +82,7 @@ def my_account_page():
 
 @app.route('/order-book')
 @login_required
-def order_book():
+def order_book_page():
     # Get lend orders with the lowest interest rate
     lend_orders = db_session.query(Order) \
                       .filter(Order.order_type == 'lend') \
