@@ -31,6 +31,13 @@ a:hover{
     color: #314357;
 }
 
+.navbar-brand{
+  color: #e3b587;
+  font-family:fantasy;
+  font-size: 4.5vw;
+  -webkit-text-stroke: 1.5px #314357;
+}
+
 .navbar-item{
     margin: 0.5vw;
     background-color: #c98c70;
@@ -41,6 +48,7 @@ a:hover{
 
 .navbar-item:hover{
     background-color: #e3b587;
+    color: #314357 !important;
     text-decoration: none;
     transition: 0.3s;
 }
@@ -69,7 +77,6 @@ a:hover{
   text-align: left;
   padding: 2vw;
   font-size: 4.5vw;
-  text-transform: uppercase;
   -webkit-text-stroke: 1.5px #314357;
   background-image: url(https://live.staticflickr.com/65535/52272296739_4f722e4798_h.jpg);
   background-position-y: 30%;
