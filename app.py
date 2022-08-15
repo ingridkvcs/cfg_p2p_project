@@ -136,7 +136,7 @@ def create_order():
     except SQLAlchemy.exc.IntegrityError:
         db_session.rollback()
 
-    return redirect(url_for('order_book'))
+    return redirect(url_for('order_book_page'))
 
 
 @app.route('/delete-order', methods=['POST'])
