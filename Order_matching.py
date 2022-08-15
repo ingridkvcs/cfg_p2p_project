@@ -1,4 +1,4 @@
-from Lendr import Order, Contract, datetime
+from Lendr import Order, Contract, datetime, flash
 
 
 def lend(db_session, borrow_orders, current_order):
@@ -60,3 +60,4 @@ def create_contract(db_session, borrower_id, lender_id, amount, interest_rate):
     contract.date_created = datetime.today()
 
     db_session.add(contract)
+    flash('Congratulations! Your order has been successfully matched. Your contract can be viewed on your account page.')

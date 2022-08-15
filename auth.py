@@ -58,6 +58,7 @@ def signup_post():
     # save the user to the database
     db_session.add(new_user)
     db_session.commit()
+    flash('Account successfully created, please proceed with login.')
 
     return redirect(url_for('auth.login'))
 

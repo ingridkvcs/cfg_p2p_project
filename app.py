@@ -7,6 +7,7 @@ from Lendr import create_db, create_tables, create_populate_users, create_popula
 from Lendr import redirect, SQLAlchemy, or_, and_, delete
 from Lendr import render_template, request, url_for, flash
 from Lendr import User, Order, Contract, create_populate_contracts, db_session
+
 # from Lendr import logging
 
 # Temporary while debugging
@@ -45,7 +46,6 @@ def favicon():
 def main_page():
     users = db_session.query(User).count()
     return render_template("index.html", user_count=users)
-
 
 
 @app.route('/fear-and-greed')
@@ -133,8 +133,10 @@ def create_order():
     # Save all the changes to the database and rollback all the changes if there's any error.
     try:
         db_session.commit()
+        flash('Congratulations! Your order has been successfully created and is awaiting a match.')
     except SQLAlchemy.exc.IntegrityError:
         db_session.rollback()
+        flash('There was an error with your order request. Please try again.')
 
     return redirect(url_for('order_book_page'))
 
