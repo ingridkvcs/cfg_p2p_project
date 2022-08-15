@@ -133,8 +133,10 @@ def create_order():
     # Save all the changes to the database and rollback all the changes if there's any error.
     try:
         db_session.commit()
+        flash('Congratulations! Your order has been successfully created and is awaiting a match.')
     except SQLAlchemy.exc.IntegrityError:
         db_session.rollback()
+        flash('There was an error with your order request. Please try again.')
 
     return redirect(url_for('order_book_page'))
 
