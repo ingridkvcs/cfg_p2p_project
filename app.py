@@ -112,11 +112,11 @@ def create_order():
 
     if not amount or not amount.isnumeric() or int(amount) <= 0:
         flash('Amount must be greater than 0.')
-        return redirect(url_for('order_book'))
+        return redirect(url_for('order_book_page'))
 
     if not interest_rate or float(interest_rate) <= 0:
         flash('Interest rate must be greater than 0.')
-        return redirect(url_for('order_book'))
+        return redirect(url_for('order_book_page'))
 
     order = Order()
     order.user_id = user_id
