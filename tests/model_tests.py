@@ -1,6 +1,16 @@
-from Lendr import User, Order
+from Lendr import User, Order, app
 from Lendr import pytest, compare_digest, flash
 
+# Tests connection
+
+
+def test_index_route():
+    test_app = app.test_client()
+    response = test_app.get('/')
+    assert response.status_code == 200
+
+
+# Tests model classes
 
 @pytest.fixture(scope='module')
 def new_user():
@@ -23,7 +33,7 @@ def new_order():
 
 
 def test_new_order(new_order):
-    # Tests that the new user details and hashed password are successfully populated
+    # Tests that the new order details are successfully populated
     assert new_order.user_id == 1
     assert new_order.order_type == "lend"
     assert new_order.amount == "1000"
@@ -37,6 +47,7 @@ def incorrect_order_amount():
 
 
 def test_order_errors(incorrect_order_amount):
+    # Tests that the order fails if amount is an incorrect type
     if incorrect_order_amount.amount is str:
         assert flash('Amount must be greater than 0.')
 
@@ -48,5 +59,6 @@ def incorrect_order_rate():
 
 
 def test_order_rate(incorrect_order_rate):
+    # Tests that the order fails if interest rate is 0
     if incorrect_order_rate.interest_rate is 0:
         flash('Interest rate must be greater than 0.')
